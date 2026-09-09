@@ -1,0 +1,2048 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>HSK 6 · Урок 1 · 孩子给我们的启示（上）</title>
+    <style>
+        :root {
+            --bg: #faf8f5;
+            --surface: #ffffff;
+            --border: #e8e2d8;
+            --text: #2a2a2a;
+            --text-secondary: #5a5a5a;
+            --text-muted: #8a8a8a;
+            --accent-cinnabar: #b5443c;
+            --accent-cinnabar-soft: #fdf2f0;
+            --accent-gold: #b8914a;
+            --accent-gold-soft: #fdf9f0;
+            --accent-bamboo: #5e7d5a;
+            --accent-bookish: #4a5b8c;
+            --accent-colloquial: #c07a5b;
+            --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.04);
+            --shadow-md: 0 8px 20px rgba(0, 0, 0, 0.08);
+            --radius-lg: 16px;
+            --radius-md: 12px;
+            --radius-sm: 8px;
+            --font-cjk: 'Noto Sans CJK SC', 'PingFang SC', 'Hiragino Sans GB', '微软雅黑', 'Heiti SC', sans-serif;
+            --font-ru: 'Segoe UI', 'Roboto', system-ui, -apple-system, sans-serif;
+            --transition: 0.2s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-ru);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 24px 16px 60px;
+        }
+
+        /* ---------- Header ---------- */
+        .header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        .header .lesson-number {
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+        .header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 2px;
+            letter-spacing: 0.3px;
+        }
+        .header .chinese-title {
+            font-family: var(--font-cjk);
+            font-size: 1.3rem;
+            color: var(--accent-cinnabar);
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+        .header .subtitle {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        /* ---------- Toolbar ---------- */
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 16px;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .toolbar-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+        }
+        .toggle-btn {
+            border: 1px solid var(--border);
+            background: var(--surface);
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 0.78rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            box-shadow: var(--shadow-sm);
+        }
+        .toggle-btn:hover {
+            background: #f5f1ea;
+            border-color: #d0c8b8;
+            color: var(--text);
+        }
+        .toggle-btn.active {
+            background: var(--accent-gold-soft);
+            border-color: var(--accent-gold);
+            color: #7a5c2e;
+        }
+        .toggle-btn.danger {
+            color: var(--accent-cinnabar);
+            border-color: #e0b4ad;
+        }
+        .toggle-btn.danger:hover {
+            background: var(--accent-cinnabar-soft);
+            border-color: var(--accent-cinnabar);
+        }
+
+        /* ---------- Search ---------- */
+        .search-wrap {
+            margin-bottom: 16px;
+        }
+        .search-wrap input {
+            width: 100%;
+            padding: 12px 18px;
+            border-radius: 30px;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color var(--transition);
+            font-family: inherit;
+            color: var(--text);
+            box-shadow: var(--shadow-sm);
+        }
+        .search-wrap input:focus {
+            border-color: var(--accent-gold);
+        }
+        .search-wrap input::placeholder {
+            color: var(--text-muted);
+        }
+
+        /* ---------- Handwriting + Anki Row ---------- */
+        .practice-row {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        .handwriting-pad {
+            flex: 1 1 60%;
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            padding: 12px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border);
+            min-width: 280px;
+        }
+        .handwriting-pad .pad-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .handwriting-pad .pad-title {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            letter-spacing: 0.5px;
+        }
+        .handwriting-pad .pad-actions {
+            display: flex;
+            gap: 6px;
+        }
+        .pad-btn {
+            border: 1px solid var(--border);
+            background: var(--surface);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+            color: var(--text-secondary);
+        }
+        .pad-btn:hover {
+            background: #f5f1ea;
+        }
+        .handwriting-pad canvas {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            max-height: 200px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            background: #fffefc;
+            display: block;
+            cursor: crosshair;
+        }
+
+        .anki-deck {
+            flex: 1 1 35%;
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            padding: 16px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border);
+            min-width: 240px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+        .anki-card {
+            width: 100%;
+            max-width: 260px;
+            aspect-ratio: 3/4;
+            perspective: 1000px;
+            cursor: pointer;
+            transition: transform 0.4s;
+            transform-style: preserve-3d;
+            position: relative;
+            margin: 0 auto;
+        }
+        .anki-card.flipped {
+            transform: rotateY(180deg);
+        }
+        .anki-face {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: var(--radius-md);
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border);
+            padding: 12px;
+        }
+        .anki-face.front {
+            background: var(--surface);
+        }
+        .anki-face.back {
+            background: var(--accent-gold-soft);
+            transform: rotateY(180deg);
+        }
+        .anki-face .anki-emoji {
+            font-size: 2rem;
+            margin-bottom: 4px;
+        }
+        .anki-face .anki-word {
+            font-family: var(--font-cjk);
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text);
+            line-height: 1.2;
+        }
+        .anki-face .anki-pinyin {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        .anki-face .anki-translation {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+        .anki-face .anki-colloc {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+        .anki-controls {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .anki-btn {
+            border: 1px solid var(--border);
+            background: var(--surface);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+            color: var(--text-secondary);
+            box-shadow: var(--shadow-sm);
+        }
+        .anki-btn:hover {
+            background: #f5f1ea;
+        }
+
+        /* ---------- Filters ---------- */
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        .filter-btn {
+            border: 1px solid var(--border);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+            letter-spacing: 0.4px;
+            background: var(--surface);
+            color: var(--text-secondary);
+            box-shadow: var(--shadow-sm);
+        }
+        .filter-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+        .filter-btn.active {
+            background: var(--text);
+            color: #fff;
+            border-color: var(--text);
+        }
+
+        /* ---------- Cards Grid ---------- */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .card-item {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            padding: 18px 16px;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .card-item:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+            border-color: #d0c8b8;
+        }
+        .card-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 4px;
+            border-radius: var(--radius-lg) 0 0 var(--radius-lg);
+            background: var(--accent-gold);
+        }
+        .card-item.bookish::before {
+            background: var(--accent-bookish);
+        }
+        .card-item.colloquial::before {
+            background: var(--accent-colloquial);
+        }
+        .card-item.idiom::before {
+            background: var(--accent-bamboo);
+        }
+        .card-item .card-category {
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--text-muted);
+            margin-bottom: 2px;
+        }
+        .card-item .card-emoji {
+            font-size: 1.8rem;
+            line-height: 1;
+        }
+        .card-item .card-word {
+            font-family: var(--font-cjk);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text);
+            line-height: 1.2;
+            margin-top: 4px;
+        }
+        .card-item .card-pinyin {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        .card-item .card-translation {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        /* ---------- No results ---------- */
+        .no-results {
+            text-align: center;
+            padding: 30px 20px;
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* ---------- Add Button ---------- */
+        .add-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto 32px;
+            padding: 12px 20px;
+            border-radius: 30px;
+            border: 2px dashed #cfc6b4;
+            background: transparent;
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+        .add-btn:hover {
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+            background: var(--accent-gold-soft);
+        }
+
+        /* ---------- Exam Tips ---------- */
+        .tips-section {
+            background: var(--accent-cinnabar-soft);
+            border-radius: var(--radius-lg);
+            padding: 20px 18px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #f0c8c0;
+            margin-bottom: 32px;
+        }
+        .tips-section h2 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--accent-cinnabar);
+        }
+        .tip-item {
+            padding: 10px 0;
+            border-bottom: 1px solid #f0c8c0;
+        }
+        .tip-item:last-child {
+            border-bottom: none;
+        }
+        .tip-title {
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: var(--text);
+            margin-bottom: 4px;
+        }
+        .tip-body {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        .tip-body .cn {
+            font-family: var(--font-cjk);
+            color: var(--accent-cinnabar);
+            font-weight: 700;
+        }
+
+        /* ---------- Footer ---------- */
+        footer {
+            text-align: center;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            letter-spacing: 0.3px;
+        }
+
+        /* ---------- Modal ---------- */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(30, 30, 30, 0.55);
+            z-index: 1000;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px 16px;
+            overflow-y: auto;
+            backdrop-filter: blur(3px);
+        }
+        .modal.active {
+            display: flex;
+        }
+        .modal-card {
+            background: var(--bg);
+            border-radius: var(--radius-lg);
+            max-width: 800px;
+            width: 100%;
+            padding: 24px 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            position: relative;
+            margin: auto 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .modal-close {
+            position: absolute;
+            top: 14px;
+            right: 16px;
+            background: transparent;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: color var(--transition);
+            line-height: 1;
+            z-index: 10;
+        }
+        .modal-close:hover {
+            color: var(--text);
+        }
+
+        /* Modal main */
+        .modal-main {
+            flex: 1 1 70%;
+            min-width: 260px;
+        }
+        .modal-side {
+            flex: 1 1 25%;
+            min-width: 160px;
+            background: var(--surface);
+            border-radius: var(--radius-md);
+            padding: 12px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border);
+            position: sticky;
+            top: 20px;
+            align-self: flex-start;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .modal-side-title {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+        .modal-side-link {
+            display: block;
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 4px 0;
+            cursor: pointer;
+            transition: color var(--transition);
+            border-bottom: 1px solid var(--border);
+        }
+        .modal-side-link:hover {
+            color: var(--accent-gold);
+        }
+
+        /* Modal header */
+        .modal-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .modal-emoji {
+            font-size: 2.8rem;
+            margin-bottom: 4px;
+        }
+        .modal-word {
+            font-family: var(--font-cjk);
+            font-size: 2.4rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 2px;
+        }
+        .modal-pinyin {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2px;
+        }
+        .modal-translation {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+        .modal-scene {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+            letter-spacing: 2px;
+        }
+
+        /* Tabs */
+        .modal-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 16px;
+        }
+        .modal-tab {
+            transition: all 0.15s ease;
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-weight: 600;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            font-family: inherit;
+            font-size: 0.75rem;
+        }
+        .modal-tab:hover {
+            background: #f5f1ea;
+            border-color: #d0c8b8;
+        }
+        .modal-tab.active {
+            background: var(--text);
+            color: #fff;
+            border-color: var(--text);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Modal content */
+        .modal-content {
+            font-size: 0.9rem;
+            line-height: 1.7;
+            color: var(--text);
+        }
+        .modal-section {
+            margin-bottom: 20px;
+        }
+        .modal-section-title {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 4px;
+        }
+        .modal-section-body {
+            color: var(--text);
+        }
+        .modal-section-body .cn {
+            font-family: var(--font-cjk);
+            font-weight: 600;
+        }
+        .modal-section-body .example {
+            display: block;
+            margin-top: 6px;
+            padding-left: 16px;
+            border-left: 3px solid var(--accent-gold);
+            font-style: italic;
+            color: var(--text-secondary);
+            font-size: 0.86rem;
+        }
+        .modal-section-body .dialogue-a,
+        .modal-section-body .dialogue-b {
+            display: block;
+            margin: 4px 0;
+            padding-left: 16px;
+            border-left: 3px solid var(--accent-bamboo);
+            font-size: 0.88rem;
+        }
+        .modal-section-body .dialogue-b {
+            border-left-color: var(--accent-gold);
+        }
+        .modal-section-body .collocation-level {
+            font-weight: 700;
+            display: block;
+            margin-top: 6px;
+            color: var(--text);
+        }
+        .modal-section-body .polyglot-text {
+            background: #f4f0e8;
+            padding: 12px 14px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            line-height: 1.8;
+            margin-top: 4px;
+        }
+        .modal-section-body .polyglot-translation {
+            margin-top: 8px;
+            font-style: italic;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            padding-left: 16px;
+            border-left: 3px solid #d0c8b8;
+        }
+        .glow-char {
+            display: inline-block;
+            animation: glowPulse 2s ease-in-out infinite;
+            color: var(--accent-cinnabar);
+            font-weight: 700;
+        }
+        @keyframes glowPulse {
+            0%, 100% {
+                opacity: 0.8;
+                text-shadow: 0 0 4px rgba(181, 68, 60, 0.3);
+            }
+            50% {
+                opacity: 1;
+                text-shadow: 0 0 12px rgba(181, 68, 60, 0.7);
+            }
+        }
+        .highlight-target {
+            font-weight: 700;
+            color: var(--accent-cinnabar);
+        }
+        .highlight-frame {
+            background: var(--accent-gold-soft);
+            padding: 0 4px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        /* Modal actions */
+        .modal-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .modal-btn {
+            border: none;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+            letter-spacing: 0.3px;
+        }
+        .modal-btn.primary {
+            background: var(--text);
+            color: #fff;
+        }
+        .modal-btn.primary:hover {
+            background: #1a1a1a;
+        }
+        .modal-btn.secondary {
+            background: #eae5da;
+            color: var(--text-secondary);
+        }
+        .modal-btn.secondary:hover {
+            background: #ddd6c8;
+        }
+        .modal-btn.danger {
+            background: var(--accent-cinnabar-soft);
+            color: var(--accent-cinnabar);
+        }
+        .modal-btn.danger:hover {
+            background: #f9d9d3;
+        }
+
+        /* Edit form */
+        .edit-form label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin: 12px 0 4px;
+        }
+        .edit-form input,
+        .edit-form textarea,
+        .edit-form select {
+            width: 100%;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            font-size: 0.88rem;
+            font-family: inherit;
+            background: var(--surface);
+            outline: none;
+            transition: border-color var(--transition);
+            color: var(--text);
+        }
+        .edit-form input:focus,
+        .edit-form textarea:focus,
+        .edit-form select:focus {
+            border-color: var(--accent-gold);
+        }
+        .edit-form textarea {
+            min-height: 60px;
+            resize: vertical;
+            line-height: 1.6;
+        }
+        .edit-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        /* Add card modal */
+        .add-card-modal textarea {
+            min-height: 160px;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .practice-row {
+                flex-direction: column;
+            }
+            .handwriting-pad,
+            .anki-deck {
+                flex: 1 1 100%;
+                min-width: 100%;
+            }
+            .modal-card {
+                flex-direction: column;
+            }
+            .modal-side {
+                position: static;
+                max-height: 200px;
+                order: -1;
+            }
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            .modal-word {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- Header -->
+        <div class="header">
+            <div class="lesson-number">HSK 6 · УРОК 1 · ЧАСТЬ 上</div>
+            <h1>Карточки лексики</h1>
+            <div class="chinese-title">孩子给我们的启示</div>
+            <div class="subtitle">Методика Карповой · структура BLCU · живой социокультурный контекст</div>
+        </div>
+
+        <!-- Toolbar -->
+        <div class="toolbar">
+            <div class="toolbar-group">
+                <button class="toggle-btn active" id="pinyinToggle">🔊 Пиньинь: Вкл</button>
+                <button class="toggle-btn active" id="transToggle">☀️ Перевод: Вкл</button>
+            </div>
+        </div>
+
+        <!-- Search -->
+        <div class="search-wrap">
+            <input type="text" id="searchInput" placeholder="🔍 Поиск: иероглифы, пиньинь, перевод, комментарии, грамматика... (Esc — сброс)" autocomplete="off">
+        </div>
+
+        <!-- Practice Row: Handwriting + Anki -->
+        <div class="practice-row">
+            <div class="handwriting-pad">
+                <div class="pad-header">
+                    <div class="pad-title">✏️ Прописывание иероглифов</div>
+                    <div class="pad-actions">
+                        <button class="pad-btn" id="undoStroke">↩️</button>
+                        <button class="pad-btn" id="redoStroke">↪️</button>
+                        <button class="pad-btn" id="clearCanvas">🗑️</button>
+                    </div>
+                </div>
+                <canvas id="handwritingCanvas"></canvas>
+            </div>
+            <div class="anki-deck" id="ankiDeck"></div>
+        </div>
+
+        <!-- Filters: категория -->
+        <div class="filters" id="filters"></div>
+
+        <!-- Filters: часть речи + сортировка -->
+        <div style="display:flex; flex-wrap:wrap; gap:10px; margin-bottom:16px; align-items:center;">
+            <select id="partFilter" style="padding:8px 14px; border-radius:20px; border:1px solid var(--border); background:var(--surface); font-family:inherit; font-size:0.8rem;">
+                <option value="all">Все части речи</option>
+                <option value="существительное">Существительное</option>
+                <option value="глагол">Глагол</option>
+                <option value="прилагательное">Прилагательное</option>
+                <option value="наречие">Наречие</option>
+                <option value="идиома">Идиома</option>
+                <option value="связка">Связка</option>
+            </select>
+            <select id="sortFilter" style="padding:8px 14px; border-radius:20px; border:1px solid var(--border); background:var(--surface); font-family:inherit; font-size:0.8rem;">
+                <option value="newest">Сначала новые</option>
+                <option value="oldest">Сначала старые</option>
+                <option value="alphabet">По алфавиту (пиньинь)</option>
+            </select>
+        </div>
+
+        <!-- Cards -->
+        <div class="cards-grid" id="cardsGrid"></div>
+
+        <!-- No results -->
+        <div id="noResults" class="no-results" style="display:none;">0 совпадений. Попробуйте уточнить запрос (иероглиф, пиньинь, контекст).</div>
+
+        <!-- Add button -->
+        <button class="add-btn" id="addBtn">+ Добавить карточку (магический парсер)</button>
+
+        <!-- Tips -->
+        <div class="tips-section">
+            <h2>⚠️ Внимание: ловушки HSK 6</h2>
+            <div class="tip-item">
+                <div class="tip-title">🚨 Ловушка грамматики: 别提多…了</div>
+                <div class="tip-body">
+                    В аудировании HSK 6 фраза <span class="cn">别提多 + Прилагательное + 了</span> обозначает максимальную степень качества (нереально / невероятно), а вовсе не запрет «не упоминай».<br>
+                    Пример: <span class="cn">听到这个好消息，我别提多高兴了</span> (= 我非常非常高兴).<br>
+                    Тестовый финт: в вариантах ответов ищи синонимы <span class="cn">极其, 非常, 特别</span>.
+                </div>
+            </div>
+            <div class="tip-item">
+                <div class="tip-title">📖 Различие формальности (阅读第一部分 — Поиск ошибок)</div>
+                <div class="tip-body">
+                    В предложениях HSK 6 часто ошибочно вставляют разговорное <span class="cn">巴不得</span> в официальный контекст. Если видишь <span class="cn">建议贵公司巴不得…</span> — это 100% стилистическая ошибка (病句). Там должно быть <span class="cn">期望</span> или <span class="cn">极度渴望</span>.
+                </div>
+            </div>
+            <div class="tip-item">
+                <div class="tip-title">🧩 Синонимический ряд (选词填空)</div>
+                <div class="tip-body">
+                    <span class="cn">朝夕相处</span> (о друзьях/коллегах, акцент на время и близость) VS <span class="cn">形影不离</span> (о парах/лучших детских друзьях, акцент на физическую неразлучность).
+                </div>
+            </div>
+        </div>
+
+        <footer>⛰️ Карточки урока · все данные из авторского разбора сохранены полностью · изменения хранятся локально в браузере</footer>
+    </div>
+
+    <!-- Modal -->
+    <div id="cardModal" class="modal">
+        <div class="modal-card">
+            <button class="modal-close" id="closeModalBtn">✕</button>
+            <div class="modal-main" id="modalMain"></div>
+            <div class="modal-side" id="modalSide"></div>
+        </div>
+    </div>
+
+    <!-- Add Card Modal -->
+    <div id="addModal" class="modal add-card-modal">
+        <div class="modal-card">
+            <button class="modal-close" id="closeAddBtn">✕</button>
+            <div id="addContent"></div>
+        </div>
+    </div>
+
+    <script>
+        // ===================== ДАННЫЕ =====================
+        const CATEGORIES = {
+            bookish: { label: '📖 Книжный', color: '#4A5B8C' },
+            colloquial: { label: '💬 Разговорный', color: '#C07A5B' },
+            idiom: { label: '🏮 Идиома', color: '#5E7D5A' },
+        };
+        const CATEGORY_KEYS = Object.keys(CATEGORIES);
+
+        const defaultCards = [{
+            id: 'qishi',
+            word: '启示',
+            emoji: '💡',
+            pinyin: 'qǐshì',
+            translation: 'озарение / назидательный урок',
+            category: 'bookish',
+            rhythm: '3-4',
+            type: 'Существительное / Глагол (Книжный стиль 书面语, Положительный окрас 褒义)',
+            frame: '[Событие/Человек] + 给 [Кого-то] + 带来 / 给予 + 启示',
+            anchor: 'Как яблоко, упавшее на голову Ньютону — бытовой случай, который неожиданно открыл глаза на важную истину.',
+            mnemonics: [
+                '启: Дверь (户) и рот (口). Открываешь дверь ртом / произносишь слово — открывается путь. Сложность: не перепутай с 房 (где 下方 方).',
+                '示: Алтарь/стол для жертвоприношений (Две горизонтальные черты + три вертикальные вниз — знак свыше). Сложность: не перепутай с 未或末.'
+            ],
+            workTogether: 'Открыть дверь и увидеть знак свыше = получить озарение.',
+            fullImage: '«Толкаешь дверь ртом, а за ней на алтаре вспыхивает подсказка».',
+            sceneChips: '🚪➜💡',
+            morphemes: '启 (открывать/наставлять) + 示 (показывать/указывать)',
+            cognates: [
+                '启示 ➔ 启发 qǐfā (HSK 5) — вдохновлять / наталкивать на мысль',
+                '启示 ➔ 表示 biǎoshì (HSK 4) — выражать / выражать согласие',
+                '启示 ➔ 显示 xiǎnshì (HSK 5) — наглядно показывать / проявление'
+            ],
+            contrastPair: '',
+            expertise: 'Указывает, что 启示 всегда содержит мораль, меняющую поведение.',
+            socialVibe: 'В заголовках постов Xiaohongshu это аналог «Книги, которые изменили моё мышление» (这几本书给了我很大的启示).',
+            expertInsight: 'Разница между 启示 и 启发: 启发 — это сам процесс наталкивания на мысль (учитель натолкнул), а 启示 — это философский вывод/урок, который ты извлёк на всю жизнь.',
+            reduction: '',
+            dialogue: [
+                '这部关于人性的纪录片太震撼了啊，看完感觉整个人都被点醒了！',
+                '确实呀，它给我们的启示就是：珍惜当下的生活嘛！'
+            ],
+            collocations: [
+                { level: '🎯 HSK 3.0', items: '深刻的启示 (глубокий урок) / 得到启示', example: '这篇文章给我带来了很大的启示。' },
+                { level: '🗣️ Быт', items: '给出启示 (дать жизненную подсказку)', example: '大自然常常能给人类的设计带来启示。' },
+                { level: '🎥 Медиа/СМИ', items: '品牌启示录 (Откровения/Уроки бренда — популярный формат бизнес-статей)',
+                example: '这家科技巨头的破产给行业留下了深刻的启示。' }
+            ],
+            polyglotText: '老师在讲台上表示，这次的实验显示出了很多问题，但他不想直接给答案，而是希望通过提问来启发大家。这个过程给同学们带来了很大的启示：思考比结论更重要。',
+            polyglotTranslation: 'Учитель выразил мысль, что этот эксперимент показал много проблем, но он не хочет давать готовый ответ, а надеется натолкнуть всех на мысль через вопросы. Этот процесс дал ученикам глубокий урок: процесс мышления важнее готового вывода.'
+        }, {
+            id: 'shuangkuai',
+            word: '爽快',
+            emoji: '⚡',
+            pinyin: 'shuǎngkuai',
+            translation: 'сходу / без лишних слов (о согласии)',
+            category: 'colloquial',
+            rhythm: '3-4 (в беглой речи 快 может терять тон: shuǎngkuai)',
+            type: 'Прилагательное / Наречие (Разговорно-письменный 口语/书面语, Положительный 褒义)',
+            frame: '[Человек] + 很爽快 / 爽快地 + [答应 / 拒绝]',
+            anchor: 'Как выпить стакан ледяной воды в жару — легко, моментально, без душных сомнений.',
+            mnemonics: [
+                '爽: Большой человек (大) и 4 крестика (爻/乄) по бокам (свет, пробивающийся сквозь раму). Сложность: держи структуру: сначала 大, потом кресты парно.',
+                '快: Сердце слева (忄) + вырывающийся поток справа (夬). Сложность: не путай с 块 (где 土).'
+            ],
+            workTogether: 'Открытое, светлое сердце + быстрая реакция = прямолинейная отзывчивость.',
+            fullImage: '«У человека в груди свет, и он мгновенно делает шаг навстречу».',
+            sceneChips: '🧊⚡🤝',
+            morphemes: '爽 (ясный/прямой) + 快 (быстрый/приятный)',
+            cognates: [
+                '爽快 ➔ 凉爽 liángshuǎng (HSK 4) — прохладный и свежий',
+                '爽快 ➔ 爽快人 shuǎngkuairén (Разговорный) — человек слова, без «тягомотины»',
+                '爽快 ➔ 直爽 zhíshuǎng (HSK 6) — прямой и искренний'
+            ],
+            contrastPair: '',
+            expertise: 'Подчеркивает, что 爽快 сочетается с глаголами действия (答应, 付钱).',
+            socialVibe: 'Так хвалят продавцов на Xianyu (Idle Fish) или коллег: 沟通很爽快，付款很快 («Офигенный покупатель, не торговался, сразу перевёл деньги»).',
+            expertInsight: 'На Севере Китая (Пекин, Донбэй) быть 爽快 — это высочайшая социальная добродетель. Если ты долго думаешь над предложением сходить поесть, тебя посчитают 磨叽 (тягомотным).',
+            reduction: 'В быстром диалоге в слове 爽快 тон иероглифа 快 сглаживается до легкого нейтрального: shuǎngkuai.',
+            dialogue: [
+                '哥们儿，周末搬家能来搭把手吗？',
+                '嗨，这不一句话的事儿嘛！我这人办事儿就俩字：爽快！'
+            ],
+            collocations: [
+                { level: '🎯 HSK 3.0', items: '爽快地答应 (сходу согласиться) / 性格爽快', example: '我提出的要求，他很爽快就答应了。' },
+                { level: '🗣️ Быт', items: '爽快一点 (Давай быстрее / Не тяни)', example: '行不行你爽快一点儿给个话，别让我一直等。' },
+                { level: '🎥 Медиа/СМИ', items: '爽快签约 (мгновенное подписание контракта в бизнесе)', example: '双方合作意向明确，在第二轮谈判中爽快签约。' }
+            ],
+            polyglotText: '秋天到了，天气非常凉爽。我和一位性格直爽的客户约在茶馆面谈，他是个爽快人，听到我的方案后，当场就爽快地签了合同。',
+            polyglotTranslation: 'Наступила осень, погода очень свежая и приятная. Я встретился в чайной с клиентом, у которого очень прямой характер. Он человек дела, и услышав мой проект, сходу без лишних слов подписал контракт.'
+        }, {
+            id: 'zhaoxixiangchu',
+            word: '朝夕相处',
+            emoji: '🏠',
+            pinyin: 'zhāo xī xiāng chǔ',
+            translation: 'жить/быть бок о бок с утра до ночи',
+            category: 'idiom',
+            rhythm: '1-1-1-3',
+            type: 'Идиома 成语 (Высокий регистр, книжно-разговорный)',
+            frame: 'A 和 B + 朝夕相处 / 与 [Кем-то] + 朝夕相处',
+            anchor: 'Как соседи по общежитию или сожители: видишь человека и сонного с утра, и уставшего вечером.',
+            mnemonics: [
+                '朝: Слева солнце встает среди травы (十 日 十), справа луна (月). Утро.',
+                '夕: Заходящая луна без точки внутри. Вечер.',
+                '相: Глаз (目) смотрит на дерево (木). Взаимность.',
+                '处: Нога в жилище (夂 + 卜). Находиться где-то.'
+            ],
+            workTogether: 'С утра (朝) до вечера (夕) смотреть друг на друга (相) в одном месте (处).',
+            fullImage: '«Солнце взошло, луна села, а двое всё так же сидят под деревом».',
+            sceneChips: '🌅🌙🤝',
+            morphemes: '朝 (утро) + 夕 (вечер) + 相 (взаимно) + 处 (находиться)',
+            cognates: [
+                '朝夕相处 ➔ 相处 xiāngchǔ (HSK 4) — ладить / уживаться',
+                '朝夕相处 ➔ 处理 chǔlǐ (HSK 5) — справляться / решать',
+                '朝夕相处 ➔ 朝气 zhāoqì (HSK 6) — утренняя свежесть / юношеский задор'
+            ],
+            contrastPair: '🔁 Контрастная пара: 朝三暮四 (zhāo sān mù sì) — «утром три, вечером четыре» (о непостоянстве и переменчивости решений). Обе идиомы используют морфему 朝 (утро) / 夕 или 暮 (вечер), но 朝夕相处 — про верное постоянство бок о бок, а 朝三暮四 — про непостоянство и переменчивость решений.',
+            expertise: 'Подчеркивает эмоциональную привязанность, возникающую от плотного контакта.',
+            socialVibe: 'Часто пишут при увольнении или выпуске из ВУЗа: 感谢和大家朝夕相处的两年 («Спасибо за эти 2 года, что мы провели вместе бок о бок»).',
+            expertInsight: 'Это слово не употребляют про случайных людей. Это либо одногруппники, либо коллеги в одном кабинете, либо романтические партнеры на стадии co-living.',
+            reduction: '',
+            dialogue: [
+                '你和室友认识才半年，关系怎么这么好呀？',
+                '嗨，天天朝夕相处的，早就跟亲姐妹一样啦！'
+            ],
+            collocations: [
+                { level: '🎯 HSK 3.0', items: '与同事朝夕相处 / 几年的朝夕相处', example: '经过几年的朝夕相处，他们建立了深厚的友谊。' },
+                { level: '🗣️ Быт', items: '每天朝夕相处 (видеться с утра до ночи)', example: '夫妻俩天天朝夕相处，难免会有小摩擦。' },
+                { level: '🎥 Медиа/СМИ', items: '在朝夕相处中产生共鸣 (проникнуться доверием в процессе тесного взаимодействия)',
+                    example: '这档真人秀节目让嘉宾们在朝夕相处中展现最真实的一面。' }
+            ],
+            polyglotText: '团队成员充满朝气，在相处的过程中非常融洽。面对突发危机，大家不仅能够冷静地处理问题，更因为这段朝夕相处的经历，形成了极高的默契。',
+            polyglotTranslation: 'Члены команды полны энергии, и в процессе общения они отлично ладят. Столкнувшись с кризисом, они не только смогли холодно решить проблему, но и благодаря этому опыту работы бок о бок с утра до ночи обрели высочайшее взаимопонимание.'
+        }, {
+            id: 'babude',
+            word: '巴不得',
+            emoji: '🔥',
+            pinyin: 'bābudé',
+            translation: 'сгорать от желания',
+            category: 'colloquial',
+            rhythm: '1-4-2 (в беглой речи 不 часто редуцируется до нейтрального: bā bu dé)',
+            type: 'Разговорный глагол-связка (Разговорный 口语, Экспрессивный)',
+            frame: '[Человек] + 巴不得 + [Глагольное предложение / Желаемая ситуация]',
+            anchor: 'Когда в 40-градусную жару мечтаешь прыгнуть в бассейн с ледяной колой — ты «бабудэ» этого всем сердцем.',
+            mnemonics: [
+                '巴: Цепляющийся крюк / змейка, которая прилипла к стене и не отпадает. Сложность: пишется в один непрерывный контур внутри.',
+                '不: Обычный крест-отрицание.',
+                '得: Шаг (彳) + солнце/деньги (日) + ладонь (寸).'
+            ],
+            workTogether: 'Прилип и не можешь не получить = страстно желать.',
+            fullImage: '«Рука так прилипла к желаемому, что оторвать невозможно».',
+            sceneChips: '🧲🔥🏊',
+            morphemes: '巴 (липнуть/страстно желать) + 不得 (нельзя не...)',
+            cognates: [
+                '巴不得 ➔ 盼望 pànwàng (HSK 5) — страстно надеяться / ожидать',
+                '巴不得 ➔ 紧巴 jǐnba (Разговорный) — впритык / туго (о деньгах/времени)',
+                '巴不得 ➔ 巴结 bājie (HSK 6) — подлизываться / заискивать'
+            ],
+            contrastPair: '',
+            expertise: 'Подчеркивает, что после 巴不得 не нужна частица 了 или 想.',
+            socialVibe: 'Мемы про пятницу: 我巴不得现在就是周五下午五点 («Я прямо сгораю, хочу, чтобы сейчас была пятница 17:00»).',
+            expertInsight: 'Осторожно! В бизнесе или на официальных встречах это слово звучит слишком по-простецки и даже вульгарно. Для официальной речи используй 迫切希望 или 迫不及待.',
+            reduction: 'В живом диалоге: «我巴(bā)不(bu)得(dé)现在就走» — тон на 不 «глотается» и переходит в легкий нейтральный.',
+            dialogue: [
+                '老板说明天加班，你什么反应？',
+                '我巴不得天天加班呢，最近缺钱嘛！'
+            ],
+            collocations: [
+                { level: '🎯 HSK 3.0', items: '巴不得早点回家 / 巴不得一下子完成', example: '天气太热了，我巴不得天天泡在水里。' },
+                { level: '🗣️ Быт', items: '他巴不得你走 (Он только и ждёт, чтобы ты ушёл)', example: '听说明天放假，同学们巴不得立刻飞回家。' },
+                { level: '🎥 Медиа/СМИ', items: '消费心态：巴不得“一分钱当两分花” (Психология потребителя: сгорают от желания сэкономить)',
+                    example: '在快节奏的时代，受众巴不得在十秒钟内获取所有关键信息。' }
+            ],
+            polyglotText: '最近手头资金比较紧巴，为了拿到这个项目，他甚至去巴结负责人。他心中一直在盼望着好消息，巴不得明天就能收到预付款。',
+            polyglotTranslation: 'В последнее время с деньгами у него было впритык, поэтому, чтобы получить этот проект, он даже стал заискивать перед руководителем. В душе он страстно надеялся на хорошие новости и сгорал от желания, чтобы предоплату перевели уже завтра.'
+        }];
+
+        // ===================== СОСТОЯНИЕ =====================
+        let cards = [];
+        const STORAGE_KEY = 'hsk6_lesson1_v4';
+        let currentCategory = 'all';
+        let partFilter = 'all';
+        let sortOrder = 'newest';
+        let searchQuery = '';
+        let pinyinVisible = true;
+        let transVisible = true;
+        let currentModalId = null;
+        let isEditing = false;
+        let editingCard = null;
+        let activeTab = 'skeleton';
+        let ankiIndex = 0;
+        let ankiFlipped = false;
+        let ankiTimer = null;
+
+        // ===================== ЗАГРУЗКА =====================
+        function loadCards() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                try {
+                    cards = JSON.parse(saved);
+                    if (!Array.isArray(cards) || cards.length === 0) cards = [...defaultCards];
+                } catch (e) {
+                    cards = [...defaultCards];
+                }
+            } else {
+                cards = [...defaultCards];
+            }
+        }
+
+        function saveCards() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(cards));
+        }
+
+        function resetCards() {
+            if (confirm('Сбросить все пользовательские карточки и изменения?')) {
+                cards = [...defaultCards];
+                saveCards();
+                renderAll();
+                closeAllModals();
+            }
+        }
+
+        // ===================== ФИЛЬТРЫ =====================
+        function getFilteredCards() {
+            let result = cards.filter(card => {
+                if (currentCategory !== 'all' && card.category !== currentCategory) return false;
+                if (partFilter !== 'all') {
+                    const typeLower = (card.type || '').toLowerCase();
+                    if (!typeLower.includes(partFilter.toLowerCase())) return false;
+                }
+                if (searchQuery.trim()) {
+                    const q = searchQuery.trim().toLowerCase();
+                    const searchable = [
+                        card.word, card.pinyin, card.translation,
+                        card.type || '', card.frame || '', card.anchor || '',
+                        card.mnemonics ? card.mnemonics.join(' ') : '',
+                        card.cognates ? card.cognates.join(' ') : '',
+                        card.expertise || '', card.socialVibe || '',
+                        card.expertInsight || '', card.reduction || '',
+                        card.dialogue ? card.dialogue.join(' ') : '',
+                        card.collocations ? card.collocations.map(c => c.items + ' ' + c.example).join(' ') : '',
+                        card.polyglotText || '', card.polyglotTranslation || ''
+                    ].join(' ').toLowerCase();
+                    if (!searchable.includes(q)) return false;
+                }
+                return true;
+            });
+
+            if (sortOrder === 'newest') {
+                result.sort((a, b) => {
+                    const aTime = a.id.includes('card_') ? parseInt(a.id.split('_')[1]) || 0 : 0;
+                    const bTime = b.id.includes('card_') ? parseInt(b.id.split('_')[1]) || 0 : 0;
+                    return bTime - aTime;
+                });
+            } else if (sortOrder === 'oldest') {
+                result.sort((a, b) => {
+                    const aTime = a.id.includes('card_') ? parseInt(a.id.split('_')[1]) || 0 : 0;
+                    const bTime = b.id.includes('card_') ? parseInt(b.id.split('_')[1]) || 0 : 0;
+                    return aTime - bTime;
+                });
+            } else if (sortOrder === 'alphabet') {
+                result.sort((a, b) => a.pinyin.localeCompare(b.pinyin));
+            }
+
+            return result;
+        }
+
+        // ===================== РЕНДЕР =====================
+        function renderAll() {
+            renderFilters();
+            renderGrid();
+            renderAnkiDeck();
+        }
+
+        function renderFilters() {
+            const container = document.getElementById('filters');
+            const cats = ['all', ...CATEGORY_KEYS];
+            container.innerHTML = cats.map(cat => {
+                const label = cat === 'all' ? 'Все' : CATEGORIES[cat].label;
+                return `<button class="filter-btn ${currentCategory === cat ? 'active' : ''}" data-cat="${cat}">${label}</button>`;
+            }).join('');
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    currentCategory = btn.dataset.cat;
+                    renderFilters();
+                    renderGrid();
+                    renderAnkiDeck();
+                });
+            });
+        }
+
+        function renderGrid() {
+            const filtered = getFilteredCards();
+            const grid = document.getElementById('cardsGrid');
+            const noResults = document.getElementById('noResults');
+            if (filtered.length === 0) {
+                grid.innerHTML = '';
+                noResults.style.display = 'block';
+                renderAnkiDeck();
+                return;
+            }
+            noResults.style.display = 'none';
+            grid.innerHTML = filtered.map(card => {
+                return `
+                <div class="card-item ${card.category}" data-id="${card.id}">
+                    <div class="card-category">${CATEGORIES[card.category].label}</div>
+                    <div class="card-emoji">${card.emoji}</div>
+                    <div class="card-word">${card.word}</div>
+                    ${pinyinVisible ? `<div class="card-pinyin">${card.pinyin}</div>` : ''}
+                    ${transVisible ? `<div class="card-translation">${card.translation}</div>` : ''}
+                </div>
+            `;
+            }).join('');
+            document.querySelectorAll('.card-item').forEach(el => {
+                el.addEventListener('click', () => openModal(el.dataset.id));
+            });
+            renderAnkiDeck();
+        }
+
+        // ===================== АНКИ =====================
+        function getAnkiCards() {
+            return getFilteredCards();
+        }
+
+        function renderAnkiDeck() {
+            const deck = document.getElementById('ankiDeck');
+            const filtered = getAnkiCards();
+            if (filtered.length === 0) {
+                deck.innerHTML = '<div style="font-size:0.8rem;color:var(--text-muted);">Нет карточек</div>';
+                return;
+            }
+            if (ankiIndex >= filtered.length) ankiIndex = 0;
+            const card = filtered[ankiIndex];
+            ankiFlipped = false;
+            const colloc1 = card.collocations && card.collocations[0] ? card.collocations[0].items : '';
+            const colloc2 = card.collocations && card.collocations[1] ? card.collocations[1].items : '';
+            deck.innerHTML = `
+                <div class="anki-card" id="ankiCard">
+                    <div class="anki-face front">
+                        <div class="anki-emoji">${card.emoji}</div>
+                        <div class="anki-word">${card.word}</div>
+                    </div>
+                    <div class="anki-face back">
+                        <div class="anki-pinyin">${card.pinyin}</div>
+                        <div class="anki-translation">${card.translation}</div>
+                        <div class="anki-colloc">${colloc1}</div>
+                        <div class="anki-colloc">${colloc2}</div>
+                    </div>
+                </div>
+                <div class="anki-controls">
+                    <button class="anki-btn" id="ankiPrev">◀</button>
+                    <button class="anki-btn" id="ankiFlip">🔄</button>
+                    <button class="anki-btn" id="ankiNext">▶</button>
+                </div>
+            `;
+            document.getElementById('ankiCard')?.addEventListener('click', () => {
+                ankiFlipped = !ankiFlipped;
+                document.getElementById('ankiCard').classList.toggle('flipped', ankiFlipped);
+            });
+            document.getElementById('ankiPrev')?.addEventListener('click', () => {
+                ankiIndex = (ankiIndex - 1 + filtered.length) % filtered.length;
+                renderAnkiDeck();
+            });
+            document.getElementById('ankiNext')?.addEventListener('click', () => {
+                ankiIndex = (ankiIndex + 1) % filtered.length;
+                renderAnkiDeck();
+            });
+            document.getElementById('ankiFlip')?.addEventListener('click', () => {
+                ankiFlipped = !ankiFlipped;
+                document.getElementById('ankiCard').classList.toggle('flipped', ankiFlipped);
+                resetAnkiTimer();
+            });
+            resetAnkiTimer();
+        }
+
+        function resetAnkiTimer() {
+            if (ankiTimer) clearInterval(ankiTimer);
+            ankiTimer = setInterval(() => {
+                const filtered = getAnkiCards();
+                if (filtered.length > 0) {
+                    ankiIndex = (ankiIndex + 1) % filtered.length;
+                    renderAnkiDeck();
+                }
+            }, 4000);
+        }
+
+        // ===================== МОДАЛКА =====================
+        function openModal(id) {
+            const card = cards.find(c => c.id === id);
+            if (!card) return;
+            currentModalId = id;
+            isEditing = false;
+            editingCard = null;
+            activeTab = 'skeleton';
+            updateModal(card);
+            document.getElementById('cardModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('cardModal').classList.remove('active');
+            currentModalId = null;
+            isEditing = false;
+            editingCard = null;
+        }
+
+        function updateModal(card) {
+            const main = document.getElementById('modalMain');
+            const side = document.getElementById('modalSide');
+            if (isEditing && editingCard) {
+                renderEditForm(main, side, editingCard);
+                return;
+            }
+
+            const sideLinks = [
+                { label: 'Каркас', target: 'sec-frame' },
+                { label: 'Якорь', target: 'sec-anchor' },
+                { label: 'Мнемоника', target: 'sec-mnemonics' },
+                { label: 'Коллокации', target: 'sec-collocations' },
+                { label: 'Полигон', target: 'sec-polyglot' },
+            ];
+            side.innerHTML = `
+                <div class="modal-side-title">Оглавление</div>
+                ${sideLinks.map(s => `<div class="modal-side-link" data-target="${s.target}">${s.label}</div>`).join('')}
+            `;
+            side.querySelectorAll('.modal-side-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    const target = document.getElementById(link.dataset.target);
+                    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                });
+            });
+
+            const tabs = [
+                { key: 'skeleton', label: '📖 Скелет' },
+                { key: 'cognitive', label: '🧠 Когнитив' },
+                { key: 'live', label: '🗣️ Живой Китай' },
+                { key: 'exam', label: '📝 Экзамен' },
+            ];
+            const tabsHtml = tabs.map(t => `<button class="modal-tab ${activeTab === t.key ? 'active' : ''}" data-tab="${t.key}">${t.label}</button>`).join('');
+
+            const skeletonHtml = `
+                <div class="modal-section" id="sec-frame">
+                    <div class="modal-section-title">🧩 Каркас</div>
+                    <div class="modal-section-body">${highlightFrame(card.frame, card.word)}</div>
+                </div>
+                <div class="modal-section" id="sec-anchor">
+                    <div class="modal-section-title">🪝 Бытовой якорь</div>
+                    <div class="modal-section-body">${highlightTarget(card.anchor, card.word)}</div>
+                </div>
+            `;
+            const cognitiveHtml = `
+                <div class="modal-section" id="sec-mnemonics">
+                    <div class="modal-section-title">👁️ Мнемотехника</div>
+                    <div class="modal-section-body">${card.mnemonics.map(m => highlightGlowChars(m, card.word)).join('<br>')}</div>
+                </div>
+                <div class="modal-section">
+                    <div class="modal-section-title">🧩 Как работают вместе</div>
+                    <div class="modal-section-body">${card.workTogether}</div>
+                </div>
+                <div class="modal-section">
+                    <div class="modal-section-title">🖼️ Цельная картинка</div>
+                    <div class="modal-section-body">${card.fullImage}</div>
+                </div>
+                <div class="modal-section">
+                    <div class="modal-section-title">🌳 Морфемы</div>
+                    <div class="modal-section-body">${highlightGlowChars(card.morphemes, card.word)}</div>
+                </div>
+                <div class="modal-section">
+                    <div class="modal-section-title">🌳 Однокоренной куст</div>
+                    <div class="modal-section-body">${card.cognates.map(c => c).join('<br>')}</div>
+                </div>
+                ${card.contrastPair ? `
+                <div class="modal-section">
+                    <div class="modal-section-title">🔁 Контрастная пара</div>
+                    <div class="modal-section-body">${card.contrastPair}</div>
+                </div>` : ''}
+            `;
+            const liveHtml = `
+                ${card.reduction ? `
+                <div class="modal-section">
+                    <div class="modal-section-title">🗣️ Речевая редукция</div>
+                    <div class="modal-section-body">${card.reduction}</div>
+                </div>` : ''}
+                <div class="modal-section">
+                    <div class="modal-section-title">💬 Живой диалог</div>
+                    <div class="modal-section-body">
+                        <div class="dialogue-a">🅰 ${highlightTarget(card.dialogue[0], card.word)}</div>
+                        <div class="dialogue-b">🅱 ${highlightTarget(card.dialogue[1], card.word)}</div>
+                    </div>
+                </div>
+                <div class="modal-section" id="sec-collocations">
+                    <div class="modal-section-title">🔗 Коллокации</div>
+                    <div class="modal-section-body">
+                        ${card.collocations.map(c => `
+                            <span class="collocation-level">${c.level}</span> ${c.items}
+                            <span class="example">${c.example}</span>
+                        `).join('')}
+                    </div>
+                </div>
+                <div class="modal-section">
+                    <div class="modal-section-title">💡 Соц. вайб</div>
+                    <div class="modal-section-body">${card.socialVibe}</div>
+                </div>
+            `;
+            const examHtml = `
+                <div class="modal-section">
+                    <div class="modal-section-title">🧠 Инсайт эксперта</div>
+                    <div class="modal-section-body">${card.expertInsight}</div>
+                </div>
+                <div class="modal-section">
+                    <div class="modal-section-title">💡 Фишка автора</div>
+                    <div class="modal-section-body">${card.expertise}</div>
+                </div>
+                <div class="modal-section" id="sec-polyglot">
+                    <div class="modal-section-title">🎯 Полигон</div>
+                    <div class="modal-section-body">
+                        <div class="polyglot-text">${highlightTarget(card.polyglotText, card.word)}</div>
+                        <div class="polyglot-translation">${card.polyglotTranslation}</div>
+                    </div>
+                </div>
+            `;
+
+            const sections = {
+                skeleton: skeletonHtml,
+                cognitive: cognitiveHtml,
+                live: liveHtml,
+                exam: examHtml,
+            };
+
+            main.innerHTML = `
+                <div class="modal-header">
+                    <div class="modal-emoji">${card.emoji}</div>
+                    <div class="modal-word">${card.word}</div>
+                    <div class="modal-pinyin">${pinyinVisible ? card.pinyin : '🔒 пиньинь скрыт'}</div>
+                    <div class="modal-translation">${transVisible ? card.translation : '🔒 перевод скрыт'}</div>
+                    ${card.sceneChips ? `<div class="modal-scene">${card.sceneChips}</div>` : ''}
+                    <div class="modal-section-body" style="margin-top:8px;font-size:0.8rem;color:var(--text-muted);">Ритм: ${card.rhythm}</div>
+                    <div class="modal-section-body" style="font-size:0.8rem;color:var(--text-muted);">Тип: ${card.type}</div>
+                </div>
+                <div class="modal-tabs">${tabsHtml}</div>
+                <div class="modal-content">${sections[activeTab]}</div>
+                <div class="modal-actions">
+                    <button class="modal-btn secondary" id="editBtn">✏️ Редактировать</button>
+                    <button class="modal-btn secondary" id="closeBtn">✕ Закрыть</button>
+                </div>
+            `;
+
+            document.querySelectorAll('.modal-tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    activeTab = tab.dataset.tab;
+                    updateModal(card);
+                });
+            });
+            document.getElementById('editBtn')?.addEventListener('click', () => {
+                isEditing = true;
+                editingCard = JSON.parse(JSON.stringify(card));
+                updateModal(card);
+            });
+            document.getElementById('closeBtn')?.addEventListener('click', closeModal);
+        }
+
+        function renderEditForm(main, side, card) {
+            side.innerHTML = '';
+            main.innerHTML = `
+                <h2 style="margin-bottom:16px;">✏️ Редактирование</h2>
+                <div class="edit-form">
+                    <label>Эмодзи</label>
+                    <input type="text" id="efEmoji" value="${card.emoji}">
+                    <label>Слово (汉字)</label>
+                    <input type="text" id="efWord" value="${card.word}">
+                    <label>Пиньинь</label>
+                    <input type="text" id="efPinyin" value="${card.pinyin}">
+                    <label>Перевод</label>
+                    <input type="text" id="efTrans" value="${card.translation}">
+                    <label>Категория</label>
+                    <select id="efCat">${CATEGORY_KEYS.map(k => `<option value="${k}" ${card.category === k ? 'selected' : ''}>${CATEGORIES[k].label}</option>`).join('')}</select>
+                    <label>Ритм тонов</label>
+                    <input type="text" id="efRhythm" value="${card.rhythm}">
+                    <label>Тип</label>
+                    <input type="text" id="efType" value="${card.type}">
+                    <label>Каркас</label>
+                    <input type="text" id="efFrame" value="${card.frame}">
+                    <label>Бытовой якорь</label>
+                    <textarea id="efAnchor">${card.anchor}</textarea>
+                    <label>Мнемотехника (каждая с новой строки)</label>
+                    <textarea id="efMnemonics">${card.mnemonics.join('\n')}</textarea>
+                    <label>Как работают вместе</label>
+                    <textarea id="efWork">${card.workTogether}</textarea>
+                    <label>Цельная картинка</label>
+                    <textarea id="efFullImage">${card.fullImage}</textarea>
+                    <label>Сцена (чипсы)</label>
+                    <input type="text" id="efSceneChips" value="${card.sceneChips || ''}">
+                    <label>Морфемы</label>
+                    <input type="text" id="efMorph" value="${card.morphemes}">
+                    <label>Однокоренной куст (каждая с новой строки)</label>
+                    <textarea id="efCognates">${card.cognates.join('\n')}</textarea>
+                    <label>Контрастная пара (если есть)</label>
+                    <textarea id="efContrast">${card.contrastPair}</textarea>
+                    <label>Фишка автора</label>
+                    <textarea id="efExpertise">${card.expertise}</textarea>
+                    <label>Вайб в соцсетях</label>
+                    <textarea id="efSocial">${card.socialVibe}</textarea>
+                    <label>Инсайт эксперта</label>
+                    <textarea id="efInsight">${card.expertInsight}</textarea>
+                    <label>Речевая редукция (если есть)</label>
+                    <textarea id="efReduction">${card.reduction}</textarea>
+                    <label>Диалог: реплика А</label>
+                    <textarea id="efDialA">${card.dialogue[0] || ''}</textarea>
+                    <label>Диалог: реплика Б</label>
+                    <textarea id="efDialB">${card.dialogue[1] || ''}</textarea>
+                    <label>Коллокация: 🎯 HSK 3.0 (уровень|описание|пример)</label>
+                    <textarea id="efColloc1">${card.collocations[0] ? card.collocations[0].level + '|' + card.collocations[0].items + '|' + card.collocations[0].example : ''}</textarea>
+                    <label>Коллокация: 🗣️ Быт (уровень|описание|пример)</label>
+                    <textarea id="efColloc2">${card.collocations[1] ? card.collocations[1].level + '|' + card.collocations[1].items + '|' + card.collocations[1].example : ''}</textarea>
+                    <label>Коллокация: 🎥 Медиа (уровень|описание|пример)</label>
+                    <textarea id="efColloc3">${card.collocations[2] ? card.collocations[2].level + '|' + card.collocations[2].items + '|' + card.collocations[2].example : ''}</textarea>
+                    <label>Полигон: текст</label>
+                    <textarea id="efPolyText">${card.polyglotText}</textarea>
+                    <label>Полигон: перевод</label>
+                    <textarea id="efPolyTrans">${card.polyglotTranslation}</textarea>
+                    <div class="edit-actions">
+                        <button class="modal-btn primary" id="saveEditBtn">💾 Сохранить</button>
+                        <button class="modal-btn danger" id="cancelEditBtn">↩️ Отмена</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById('saveEditBtn')?.addEventListener('click', saveFromForm);
+            document.getElementById('cancelEditBtn')?.addEventListener('click', cancelEdit);
+        }
+
+        function saveFromForm() {
+            const get = (id) => document.getElementById(id)?.value.trim() || '';
+            const collocations = [];
+            const parseColloc = (val) => {
+                const parts = val.split('|').map(s => s.trim());
+                if (parts.length === 3) return { level: parts[0], items: parts[1], example: parts[2] };
+                return null;
+            };
+            const c1 = parseColloc(get('efColloc1'));
+            const c2 = parseColloc(get('efColloc2'));
+            const c3 = parseColloc(get('efColloc3'));
+            if (c1) collocations.push(c1);
+            if (c2) collocations.push(c2);
+            if (c3) collocations.push(c3);
+
+            const updated = {
+                ...editingCard,
+                emoji: get('efEmoji'),
+                word: get('efWord'),
+                pinyin: get('efPinyin'),
+                translation: get('efTrans'),
+                category: get('efCat'),
+                rhythm: get('efRhythm'),
+                type: get('efType'),
+                frame: get('efFrame'),
+                anchor: get('efAnchor'),
+                mnemonics: get('efMnemonics').split('\n').filter(s => s.trim()),
+                workTogether: get('efWork'),
+                fullImage: get('efFullImage'),
+                sceneChips: get('efSceneChips'),
+                morphemes: get('efMorph'),
+                cognates: get('efCognates').split('\n').filter(s => s.trim()),
+                contrastPair: get('efContrast'),
+                expertise: get('efExpertise'),
+                socialVibe: get('efSocial'),
+                expertInsight: get('efInsight'),
+                reduction: get('efReduction'),
+                dialogue: [get('efDialA'), get('efDialB')].filter(s => s),
+                collocations: collocations,
+                polyglotText: get('efPolyText'),
+                polyglotTranslation: get('efPolyTrans')
+            };
+
+            const index = cards.findIndex(c => c.id === editingCard.id);
+            if (index !== -1) {
+                cards[index] = updated;
+                saveCards();
+                isEditing = false;
+                editingCard = null;
+                updateModal(updated);
+                renderGrid();
+            }
+        }
+
+        function cancelEdit() {
+            isEditing = false;
+            editingCard = null;
+            if (currentModalId) {
+                const card = cards.find(c => c.id === currentModalId);
+                if (card) updateModal(card);
+            }
+        }
+
+        function closeAllModals() {
+            document.getElementById('cardModal').classList.remove('active');
+            document.getElementById('addModal').classList.remove('active');
+        }
+
+        // ===================== ПОДСВЕТКА =====================
+        function highlightGlowChars(text, word) {
+            if (!text || !word) return text;
+            const chars = word.split('');
+            let result = text;
+            chars.forEach(ch => {
+                if (ch && ch !== ' ') {
+                    result = result.replace(new RegExp(ch, 'g'), `<span class="glow-char">${ch}</span>`);
+                }
+            });
+            return result;
+        }
+
+        function highlightTarget(text, word) {
+            if (!text || !word) return text;
+            return text.replace(new RegExp(word, 'g'), `<span class="highlight-target">${word}</span>`);
+        }
+
+        function highlightFrame(text, word) {
+            if (!text) return text;
+            let result = text;
+            result = highlightTarget(result, word);
+            result = result.replace(/\[([^\]]+)\]/g, `<span class="highlight-frame">[$1]</span>`);
+            return result;
+        }
+
+        // ===================== ДОБАВЛЕНИЕ =====================
+        function openAddModal() {
+            const container = document.getElementById('addContent');
+            container.innerHTML = `
+                <h2 style="margin-bottom:16px;">➕ Новая карточка</h2>
+                <div style="margin-bottom:12px;">
+                    <label style="font-weight:600;font-size:0.85rem;">📋 Вставьте текст в нашем формате — парсер сам разберет</label>
+                    <textarea id="parseArea" style="width:100%;min-height:160px;padding:12px;border-radius:8px;border:1px solid #ddd;font-family:inherit;font-size:0.9rem;line-height:1.6;" placeholder="📌 [ 词语 ] cíyǔ — значение&#10;🎵 Ритм тонов: 1-2&#10;📐 Тип: ...&#10;🧩 Каркас: ...&#10;🪝 Бытовой якорь: ..."></textarea>
+                </div>
+                <div style="margin-bottom:12px;">
+                    <label style="font-weight:600;font-size:0.85rem;">🏷️ Категория</label>
+                    <select id="newCat" style="width:100%;padding:10px;border-radius:8px;border:1px solid #ddd;font-family:inherit;font-size:0.9rem;">${CATEGORY_KEYS.map(k => `<option value="${k}">${CATEGORIES[k].label}</option>`).join('')}</select>
+                </div>
+                <div class="modal-actions">
+                    <button class="modal-btn primary" id="magicBtn">✨ Магически создать</button>
+                    <button class="modal-btn secondary" id="manualBtn">📝 Вручную</button>
+                </div>
+            `;
+            document.getElementById('magicBtn').addEventListener('click', magicCreate);
+            document.getElementById('manualBtn').addEventListener('click', manualCreate);
+            document.getElementById('addModal').classList.add('active');
+        }
+
+        function closeAddModal() {
+            document.getElementById('addModal').classList.remove('active');
+        }
+
+        function magicCreate() {
+            const text = document.getElementById('parseArea').value.trim();
+            const category = document.getElementById('newCat').value;
+            if (!text) { alert('Вставьте текст.'); return; }
+            const card = parseToCard(text, category);
+            if (!card.word) { alert('Не удалось распознать слово.'); return; }
+            card.id = 'card_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5);
+            if (!card.emoji) card.emoji = '📘';
+            cards.push(card);
+            saveCards();
+            renderAll();
+            closeAddModal();
+            openModal(card.id);
+        }
+
+        function manualCreate() {
+            const category = document.getElementById('newCat').value;
+            const blank = {
+                id: 'card_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
+                word: '', emoji: '📘', pinyin: '', translation: '', category: category,
+                rhythm: '', type: '', frame: '', anchor: '', mnemonics: [],
+                workTogether: '', fullImage: '', sceneChips: '', morphemes: '', cognates: [],
+                contrastPair: '', expertise: '', socialVibe: '', expertInsight: '',
+                reduction: '', dialogue: ['', ''], collocations: [
+                    { level: '🎯 HSK 3.0', items: '', example: '' },
+                    { level: '🗣️ Быт', items: '', example: '' },
+                    { level: '🎥 Медиа/СМИ', items: '', example: '' }
+                ],
+                polyglotText: '', polyglotTranslation: ''
+            };
+            cards.push(blank);
+            saveCards();
+            renderAll();
+            closeAddModal();
+            openModal(blank.id);
+            isEditing = true;
+            editingCard = JSON.parse(JSON.stringify(blank));
+            updateModal(blank);
+        }
+
+        function parseToCard(text, category) {
+            const card = {
+                word: '', emoji: '📘', pinyin: '', translation: '', category: category,
+                rhythm: '', type: '', frame: '', anchor: '', mnemonics: [],
+                workTogether: '', fullImage: '', sceneChips: '', morphemes: '', cognates: [],
+                contrastPair: '', expertise: '', socialVibe: '', expertInsight: '',
+                reduction: '', dialogue: ['', ''], collocations: [
+                    { level: '🎯 HSK 3.0', items: '', example: '' },
+                    { level: '🗣️ Быт', items: '', example: '' },
+                    { level: '🎥 Медиа/СМИ', items: '', example: '' }
+                ],
+                polyglotText: '', polyglotTranslation: ''
+            };
+
+            const lines = text.split('\n').map(l => l.trim()).filter(l => l);
+
+            const mainLine = lines.find(l => l.includes('[') && l.includes(']'));
+            if (mainLine) {
+                const match = mainLine.match(/\[([^\]]+)\]\s*([\w\sāáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜüÜĀÁǍÀĒÉĚÈĪÍǏÌŌÓǑÒŪÚǓÙǕǗǙǛ]+)\s*[—–\-–]\s*(.+)/);
+                if (match) {
+                    card.word = match[1].trim();
+                    card.pinyin = match[2].trim();
+                    card.translation = match[3].trim();
+                } else {
+                    const simple = mainLine.match(/\[([^\]]+)\]\s*(.+)/);
+                    if (simple) {
+                        card.word = simple[1].trim();
+                        const rest = simple[2].trim();
+                        const pm = rest.match(/^([\w\sāáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜüÜĀÁǍÀĒÉĚÈĪÍǏÌŌÓǑÒŪÚǓÙǕǗǙǛ]+)/);
+                        if (pm) {
+                            card.pinyin = pm[1].trim();
+                            card.translation = rest.replace(pm[1], '').replace(/^[—–\-–]\s*/, '').trim();
+                        }
+                    }
+                }
+            }
+
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                if (!line) continue;
+                if (line.includes('Ритм тонов')) card.rhythm = line.replace(/.*Ритм тонов[:\s]*/, '').trim();
+                else if (line.includes('Тип:')) card.type = line.replace(/.*Тип[:\s]*/, '').trim();
+                else if (line.includes('Каркас')) card.frame = line.replace(/.*Каркас[:\s]*/, '').trim();
+                else if (line.includes('Бытовой якорь')) card.anchor = line.replace(/.*Бытовой якорь[:\s]*/, '').trim();
+                else if (line.includes('Мнемотехника') || line.includes('👁️')) {
+                    const mnemonics = [];
+                    let j = i + 1;
+                    while (j < lines.length) {
+                        const next = lines[j];
+                        if (next.includes('Как работают вместе') || next.includes('Цельная картинка') || next.includes('🧩 Как') || next.includes('🖼️')) break;
+                        if (next.startsWith('*') || next.startsWith('·') || next.startsWith('•') || next.startsWith('-')) {
+                            mnemonics.push(next.replace(/^[*\s·•\-–]+/, '').trim());
+                        }
+                        j++;
+                    }
+                    if (mnemonics.length) card.mnemonics = mnemonics;
+                    i = j - 1;
+                } else if (line.includes('Как работают вместе')) card.workTogether = line.replace(/.*Как работают вместе[:\s]*/, '').trim();
+                else if (line.includes('Цельная картинка')) card.fullImage = line.replace(/.*Цельная картинка[:\s]*/, '').trim();
+                else if (line.includes('Сцена')) card.sceneChips = line.replace(/.*Сцена[^:]*[:\s]*/, '').trim();
+                else if (line.includes('Морфемы')) card.morphemes = line.replace(/.*Морфемы[:\s]*/, '').trim();
+                else if (line.includes('Однокоренной куст')) {
+                    const cognates = [];
+                    let j = i + 1;
+                    while (j < lines.length) {
+                        const next = lines[j];
+                        if (next.includes('🔁') || next.includes('Контрастная пара') || next.includes('Экспертиза') || next.includes('💡')) break;
+                        if (next.includes('➔') || next.startsWith('*') || next.startsWith('·') || next.startsWith('•') || next.startsWith('-')) {
+                            cognates.push(next.replace(/^[*\s·•\-–]+/, '').trim());
+                        }
+                        j++;
+                    }
+                    if (cognates.length) card.cognates = cognates;
+                    i = j - 1;
+                } else if (line.includes('Контрастная пара') || line.includes('🔁')) {
+                    card.contrastPair = line.replace(/.*Контрастная пара[:\s]*/, '').trim();
+                    if (!card.contrastPair && i + 1 < lines.length) { card.contrastPair = lines[i + 1].trim();
+                        i++; }
+                } else if (line.includes('Фишка автора')) card.expertise = line.replace(/.*Фишка автора[:\s]*/, '').trim();
+                else if (line.includes('Вайб в')) card.socialVibe = line.replace(/.*Вайб в[^:]*[:\s]*/, '').trim();
+                else if (line.includes('Инсайт эксперта')) card.expertInsight = line.replace(/.*Инсайт эксперта[:\s]*/, '').trim();
+                else if (line.includes('Речевая редукция')) card.reduction = line.replace(/.*Речевая редукция[:\s]*/, '').trim();
+                else if (line.includes('🅰') || line.startsWith('A:')) card.dialogue[0] = line.replace(/^🅰\s*/, '').trim();
+                else if (line.includes('🅱') || line.startsWith('B:')) card.dialogue[1] = line.replace(/^🅱\s*/, '').trim();
+                else if (line.includes('🎯 HSK 3.0') || line.includes('HSK 3.0')) {
+                    const rest = line.replace(/.*🎯 HSK 3.0[:\s]*/, '').trim();
+                    const parts = rest.split('|');
+                    if (parts.length >= 1) card.collocations[0].items = parts[0].trim();
+                    if (parts.length >= 2) card.collocations[0].example = parts[1].trim();
+                    else if (i + 1 < lines.length) { card.collocations[0].example = lines[i + 1].trim();
+                        i++; }
+                } else if (line.includes('🗣️ Быт')) {
+                    const rest = line.replace(/.*🗣️ Быт[:\s]*/, '').trim();
+                    const parts = rest.split('|');
+                    if (parts.length >= 1) card.collocations[1].items = parts[0].trim();
+                    if (parts.length >= 2) card.collocations[1].example = parts[1].trim();
+                    else if (i + 1 < lines.length) { card.collocations[1].example = lines[i + 1].trim();
+                        i++; }
+                } else if (line.includes('🎥 Медиа') || line.includes('Медиа/СМИ')) {
+                    const rest = line.replace(/.*🎥 Медиа\/СМИ[:\s]*/, '').trim();
+                    const parts = rest.split('|');
+                    if (parts.length >= 1) card.collocations[2].items = parts[0].trim();
+                    if (parts.length >= 2) card.collocations[2].example = parts[1].trim();
+                    else if (i + 1 < lines.length) { card.collocations[2].example = lines[i + 1].trim();
+                        i++; }
+                } else if (line.includes('Текст:')) card.polyglotText = line.replace(/.*Текст[:\s]*/, '').trim();
+                else if (line.includes('Перевод:')) card.polyglotTranslation = line.replace(/.*Перевод[:\s]*/, '').trim();
+            }
+
+            return card;
+        }
+
+        // ===================== CANVAS =====================
+        const canvas = document.getElementById('handwritingCanvas');
+        const ctx = canvas.getContext('2d');
+        let drawing = false;
+        let strokeHistory = [];
+        let redoHistory = [];
+
+        function resizeCanvas() {
+            const rect = canvas.parentElement.getBoundingClientRect();
+            const size = Math.min(rect.width - 24, 200);
+            canvas.width = size;
+            canvas.height = size;
+            ctx.lineWidth = 3;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.strokeStyle = '#2a2a2a';
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        function getPos(e) {
+            const rect = canvas.getBoundingClientRect();
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            return {
+                x: clientX - rect.left,
+                y: clientY - rect.top
+            };
+        }
+
+        canvas.addEventListener('mousedown', (e) => {
+            drawing = true;
+            const pos = getPos(e);
+            ctx.beginPath();
+            ctx.moveTo(pos.x, pos.y);
+            strokeHistory.push([]);
+            strokeHistory[strokeHistory.length - 1].push({ x: pos.x, y: pos.y });
+            redoHistory = [];
+        });
+        canvas.addEventListener('mousemove', (e) => {
+            if (!drawing) return;
+            const pos = getPos(e);
+            ctx.lineTo(pos.x, pos.y);
+            ctx.stroke();
+            strokeHistory[strokeHistory.length - 1].push({ x: pos.x, y: pos.y });
+        });
+        canvas.addEventListener('mouseup', () => { drawing = false; });
+        canvas.addEventListener('mouseleave', () => { drawing = false; });
+
+        canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            drawing = true;
+            const pos = getPos(e);
+            ctx.beginPath();
+            ctx.moveTo(pos.x, pos.y);
+            strokeHistory.push([]);
+            strokeHistory[strokeHistory.length - 1].push({ x: pos.x, y: pos.y });
+            redoHistory = [];
+        });
+        canvas.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            if (!drawing) return;
+            const pos = getPos(e);
+            ctx.lineTo(pos.x, pos.y);
+            ctx.stroke();
+            strokeHistory[strokeHistory.length - 1].push({ x: pos.x, y: pos.y });
+        });
+        canvas.addEventListener('touchend', () => { drawing = false; });
+
+        document.getElementById('undoStroke').addEventListener('click', () => {
+            if (strokeHistory.length === 0) return;
+            redoHistory.push(strokeHistory.pop());
+            redrawCanvas();
+        });
+        document.getElementById('redoStroke').addEventListener('click', () => {
+            if (redoHistory.length === 0) return;
+            strokeHistory.push(redoHistory.pop());
+            redrawCanvas();
+        });
+        document.getElementById('clearCanvas').addEventListener('click', () => {
+            strokeHistory = [];
+            redoHistory = [];
+            redrawCanvas();
+        });
+
+        function redrawCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            strokeHistory.forEach(stroke => {
+                if (stroke.length < 2) return;
+                ctx.beginPath();
+                ctx.moveTo(stroke[0].x, stroke[0].y);
+                for (let i = 1; i < stroke.length; i++) {
+                    ctx.lineTo(stroke[i].x, stroke[i].y);
+                }
+                ctx.stroke();
+            });
+        }
+
+        // ===================== СОБЫТИЯ =====================
+        document.getElementById('pinyinToggle').addEventListener('click', () => {
+            pinyinVisible = !pinyinVisible;
+            const btn = document.getElementById('pinyinToggle');
+            btn.textContent = pinyinVisible ? '🔊 Пиньинь: Вкл' : '🔇 Пиньинь: Выкл';
+            btn.classList.toggle('active', pinyinVisible);
+            renderGrid();
+            if (currentModalId) { const c = cards.find(x => x.id === currentModalId); if (c && !isEditing) updateModal(c); }
+        });
+        document.getElementById('transToggle').addEventListener('click', () => {
+            transVisible = !transVisible;
+            const btn = document.getElementById('transToggle');
+            btn.textContent = transVisible ? '☀️ Перевод: Вкл' : '🌙 Перевод: Выкл';
+            btn.classList.toggle('active', transVisible);
+            renderGrid();
+            if (currentModalId) { const c = cards.find(x => x.id === currentModalId); if (c && !isEditing) updateModal(c); }
+        });
+
+        document.getElementById('searchInput').addEventListener('input', e => {
+            searchQuery = e.target.value;
+            renderAll();
+        });
+        document.getElementById('searchInput').addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.getElementById('searchInput').value = '';
+                searchQuery = '';
+                renderAll();
+            }
+        });
+
+        document.getElementById('partFilter').addEventListener('change', (e) => {
+            partFilter = e.target.value;
+            renderAll();
+        });
+        document.getElementById('sortFilter').addEventListener('change', (e) => {
+            sortOrder = e.target.value;
+            renderAll();
+        });
+
+        document.getElementById('closeModalBtn').addEventListener('click', closeModal);
+        document.getElementById('cardModal').addEventListener('click', e => { if (e.target === document.getElementById('cardModal')) closeModal(); });
+        document.getElementById('closeAddBtn').addEventListener('click', closeAddModal);
+        document.getElementById('addModal').addEventListener('click', e => { if (e.target === document.getElementById('addModal')) closeAddModal(); });
+        document.getElementById('addBtn').addEventListener('click', openAddModal);
+
+        // Кнопка сброса — в футере (по требованию)
+        document.querySelector('footer').addEventListener('dblclick', () => {
+            if (confirm('Двойное подтверждение: сбросить все карточки к исходным?')) {
+                cards = [...defaultCards];
+                saveCards();
+                renderAll();
+                closeAllModals();
+            }
+        });
+
+        // ===================== ИНИЦИАЛИЗАЦИЯ =====================
+        loadCards();
+        renderAll();
+        resetAnkiTimer();
+    </script>
+</body>
+</html>

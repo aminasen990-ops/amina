@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>Китайские выражения — переводы</title>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: #e8ecf1;
+    color: #1a1a2e;
+    font-size: 16px;
+    line-height: 1.35;
+    padding-bottom: 30px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Верхняя панель с флагами ── */
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    padding: 8px 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.22);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .topbar::-webkit-scrollbar { display: none; }
+
+  .flag-btn {
+    flex: 0 0 auto;
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    border: 2px solid transparent;
+    background: rgba(255,255,255,0.08);
+    font-size: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.15s, background 0.15s, box-shadow 0.15s;
+    line-height: 1;
+    padding: 0;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  .flag-btn:active { transform: scale(0.9); }
+  .flag-btn.active {
+    background: #e94560;
+    border-color: #ff6b81;
+    box-shadow: 0 0 12px rgba(233,69,96,0.5);
+    transform: scale(1.06);
+  }
+
+  /* ── Контейнер: воздух по краям ── */
+  .container {
+    max-width: 620px;
+    margin: 0 auto;
+    padding: 18px 18px 24px;
+  }
+
+  /* ── Видео-блок ── */
+  .video-block { margin-bottom: 30px; }
+
+  .video-title {
+    background: linear-gradient(135deg, #16213e, #0f3460);
+    color: #fff;
+    padding: 12px 16px;
+    border-radius: 14px 14px 0 0;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+  .video-title .cn {
+    display: block;
+    font-size: 17px;
+    color: #ffcc00;
+    margin-bottom: 2px;
+  }
+  .video-title .py {
+    display: block;
+    font-size: 12px;
+    color: #aab;
+    font-weight: 400;
+    font-style: italic;
+    margin-bottom: 2px;
+  }
+  .video-title .trans {
+    display: block;
+    font-size: 13.5px;
+    color: #dde;
+    font-weight: 500;
+  }
+
+  /* ── Таблица ── */
+  .table-wrap {
+    background: #fff;
+    border-radius: 0 0 14px 14px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+  }
+
+  /* Одноколоночная строка: эмодзи + [иероглиф / пиньинь / перевод] */
+  .row {
+    display: flex;
+    align-items: flex-start;
+    padding: 9px 16px;
+    border-bottom: 1px solid #f2f3f7;
+    gap: 9px;
+  }
+  .row:last-child { border-bottom: none; }
+  .row:nth-child(even) { background: #fafbfd; }
+
+  .row-emoji {
+    flex: 0 0 26px;
+    font-size: 20px;
+    text-align: center;
+    line-height: 1.2;
+    padding-top: 1px;
+  }
+
+  .row-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  /* Иероглифы — самые крупные */
+  .row-cn {
+    font-size: 19px;
+    font-weight: 700;
+    color: #10101f;
+    letter-spacing: 0.5px;
+    line-height: 1.2;
+  }
+
+  /* Пиньинь — под иероглифом, средний */
+  .row-py {
+    font-size: 12px;
+    color: #8a99aa;
+    font-style: italic;
+    letter-spacing: 0.2px;
+    line-height: 1.25;
+    margin-top: 1px;
+  }
+
+  /* Перевод — под пиньинем, чуть меньше, спокойный цвет */
+  .row-trans {
+    font-size: 13.5px;
+    color: #2f6b50;
+    font-weight: 500;
+    line-height: 1.3;
+    margin-top: 3px;
+  }
+
+  /* ── Страницы языков ── */
+  .lang-page { display: none; }
+  .lang-page.active {
+    display: block;
+    animation: fadeIn 0.2s ease-out;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Адаптив ── */
+  @media (max-width: 380px) {
+    body { font-size: 15px; }
+    .flag-btn { width: 42px; height: 42px; font-size: 22px; border-radius: 10px; }
+    .container { padding: 14px 14px 20px; }
+    .video-title { font-size: 14px; padding: 11px 14px; }
+    .video-title .cn { font-size: 16px; }
+    .video-title .trans { font-size: 13px; }
+    .row { padding: 8px 13px; gap: 8px; }
+    .row-emoji { flex: 0 0 24px; font-size: 18px; }
+    .row-cn { font-size: 18px; }
+    .row-py { font-size: 11.5px; }
+    .row-trans { font-size: 13px; }
+  }
+
+  @media (min-width: 600px) {
+    .container { padding: 22px 22px 28px; }
+    .row-cn { font-size: 20px; }
+    .row-py { font-size: 12.5px; }
+    .row-trans { font-size: 14.5px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ ПАНЕЛЬ ЯЗЫКОВ ═══ -->
+<div class="topbar">
+  <button class="flag-btn" data-lang="jp" onclick="switchLang('jp')" title="日本語">🇯🇵</button>
+  <button class="flag-btn" data-lang="th" onclick="switchLang('th')" title="ไทย">🇹🇭</button>
+  <button class="flag-btn" data-lang="kr" onclick="switchLang('kr')" title="한국어">🇰🇷</button>
+  <button class="flag-btn" data-lang="mm" onclick="switchLang('mm')" title="မြန်မာ">🇲🇲</button>
+  <button class="flag-btn" data-lang="mx" onclick="switchLang('mx')" title="Español (MX)">🇲🇽</button>
+  <button class="flag-btn" data-lang="ru" onclick="switchLang('ru')" title="Русский">🇷🇺</button>
+</div>
+
+<div class="container">
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- ЯПОНСКИЙ 🇯🇵 -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="lang-page" id="lang-jp">
+
+  <div class="video-block">
+    <div class="video-title">
+      <span class="cn">🎬 Видео 1：中等阶层过去与现在</span>
+      <span class="py">zhōng děng jiē céng guò qù yǔ xiàn zài</span>
+      <span class="trans">中流階級の昔と今</span>
+    </div>
+    <div class="table-wrap">
+      <div class="row"><div class="row-emoji">😌</div><div class="row-content"><div class="row-cn">美滋滋</div><div class="row-py">měi zī zī</div><div class="row-trans">めちゃくちゃ気持ちいい、最高</div></div></div>
+      <div class="row"><div class="row-emoji">✨</div><div class="row-content"><div class="row-cn">拿下</div><div class="row-py">ná xià</div><div class="row-trans">ゲットする、手に入れる</div></div></div>
+      <div class="row"><div class="row-emoji">🏠</div><div class="row-content"><div class="row-cn">房贷</div><div class="row-py">fáng dài</div><div class="row-trans">住宅ローン</div></div></div>
+      <div class="row"><div class="row-emoji">📍</div><div class="row-content"><div class="row-cn">搁这儿</div><div class="row-py">gē zhèr</div><div class="row-trans">ここで</div></div></div>
+      <div class="row"><div class="row-emoji">🍳</div><div class="row-content"><div class="row-cn">整了</div><div class="row-py">zhěng le</div><div class="row-trans">用意しちゃった、やっちゃった</div></div></div>
+      <div class="row"><div class="row-emoji">🙊</div><div class="row-content"><div class="row-cn">老实交代</div><div class="row-py">lǎo shi jiāo dài</div><div class="row-trans">白状しろ、正直に言え</div></div></div>
+      <div class="row"><div class="row-emoji">📅</div><div class="row-content"><div class="row-cn">分期</div><div class="row-py">fēn qī</div><div class="row-trans">分割払い</div></div></div>
+      <div class="row"><div class="row-emoji">💸</div><div class="row-content"><div class="row-cn">撸小额网贷</div><div class="row-py">lū xiǎo é wǎng dài</div><div class="row-trans">ネットの少額ローンを借りる</div></div></div>
+      <div class="row"><div class="row-emoji">🤦</div><div class="row-content"><div class="row-cn">搁这儿瞎折</div><div class="row-py">gē zhèr xiā zhé</div><div class="row-trans">ここで無駄なことをしている</div></div></div>
+      <div class="row"><div class="row-emoji">🚀</div><div class="row-content"><div class="row-cn">脆冲</div><div class="row-py">cuì chōng</div><div class="row-trans">サクッと突撃、さっさと行こう</div></div></div>
+      <div class="row"><div class="row-emoji">👀</div><div class="row-content"><div class="row-cn">瞅</div><div class="row-py">chǒu</div><div class="row-trans">ちらっと見る</div></div></div>
+      <div class="row"><div class="row-emoji">🏃</div><div class="row-content"><div class="row-cn">溜</div><div class="row-py">liū</div><div class="row-trans">こっそり行く、抜け出す</div></div></div>
+      <div class="row"><div class="row-emoji">🚶</div><div class="row-content"><div class="row-cn">晃一圈</div><div class="row-py">huàng yī quān</div><div class="row-trans">ぶらっと一回りする</div></div></div>
+      <div class="row"><div class="row-emoji">📦</div><div class="row-content"><div class="row-cn">堆了</div><div class="row-py">duī le</div><div class="row-trans">積んじゃった</div></div></div>
+      <div class="row"><div class="row-emoji">🍽️</div><div class="row-content"><div class="row-cn">贵奢餐厅</div><div class="row-py">guì shē cān tīng</div><div class="row-trans">高級レストラン</div></div></div>
+      <div class="row"><div class="row-emoji">🆓</div><div class="row-content"><div class="row-cn">白嫖</div><div class="row-py">bái piáo</div><div class="row-trans">タダで使う、ただ乗り</div></div></div>
+      <div class="row"><div class="row-emoji">🛋️</div><div class="row-content"><div class="row-cn">宅家</div><div class="row-py">zhái jiā</div><div class="row-trans">家に引きこもる</div></div></div>
+      <div class="row"><div class="row-emoji">🤷</div><div class="row-content"><div class="row-cn">好歹</div><div class="row-py">hǎo dǎi</div><div class="row-trans">せめて</div></div></div>
+      <div class="row"><div class="row-emoji">😲</div><div class="row-content"><div class="row-cn">好家伙</div><div class="row-py">hǎo jiā huo</div><div class="row-trans">おお、なんてこった</div></div></div>
+    </div>
+  </div>
+
+  <div class="video-block">
+    <div class="video-title">
+      <span class="cn">🎬 Видео 2：Z世代现象，他们不想加班</span>
+      <span class="py">Z shì dài xiàn xiàng，tā men bù xiǎng jiā bān</span>
+      <span class="trans">Z世代の現象、彼らは残業を嫌がる</span>
+    </div>
+    <div class="table-wrap">
+      <div class="row"><div class="row-emoji">💨</div><div class="row-content"><div class="row-cn">原地消失</div><div class="row-py">yuán dì xiāo shī</div><div class="row-trans">その場で消え失せる</div></div></div>
+      <div class="row"><div class="row-emoji">🌑</div><div class="row-content"><div class="row-cn">黑眼圈</div><div class="row-py">hēi yǎn quān</div><div class="row-trans">目のクマ</div></div></div>
+      <div class="row"><div class="row-emoji">🥱</div><div class="row-content"><div class="row-cn">熬厚了</div><div class="row-py">áo hòu le</div><div class="row-trans">寝不足で濃くなった</div></div></div>
+      <div class="row"><div class="row-emoji">⏰</div><div class="row-content"><div class="row-cn">卡点</div><div class="row-py">kǎ diǎn</div><div class="row-trans">時間ぴったりに合わせる</div></div></div>
+      <div class="row"><div class="row-emoji">🏃💨</div><div class="row-content"><div class="row-cn">跑路</div><div class="row-py">pǎo lù</div><div class="row-trans">さっさと帰る、逃げる</div></div></div>
+      <div class="row"><div class="row-emoji">👔</div><div class="row-content"><div class="row-cn">领导</div><div class="row-py">lǐng dǎo</div><div class="row-trans">上司</div></div></div>
+      <div class="row"><div class="row-emoji">⏳</div><div class="row-content"><div class="row-cn">耽搁</div><div class="row-py">dān ge</div><div class="row-trans">遅れる、手間取る</div></div></div>
+      <div class="row"><div class="row-emoji">🧱</div><div class="row-content"><div class="row-cn">阶级隔离</div><div class="row-py">jiē jí gé lí</div><div class="row-trans">階級分離</div></div></div>
+      <div class="row"><div class="row-emoji">🐂🐎</div><div class="row-content"><div class="row-cn">牛马</div><div class="row-py">niú mǎ</div><div class="row-trans">搾取される労働者、奴隷労働者</div></div></div>
+      <div class="row"><div class="row-emoji">🤔</div><div class="row-content"><div class="row-cn">敢情</div><div class="row-py">gǎn qíng</div><div class="row-trans">なるほど、そういうことか</div></div></div>
+      <div class="row"><div class="row-emoji">🙇</div><div class="row-content"><div class="row-cn">磕头</div><div class="row-py">kē tóu</div><div class="row-trans">頭を下げる、土下座</div></div></div>
+      <div class="row"><div class="row-emoji">🦮</div><div class="row-content"><div class="row-cn">遛狗</div><div class="row-py">liù gǒu</div><div class="row-trans">犬の散歩をする</div></div></div>
+      <div class="row"><div class="row-emoji">🫳</div><div class="row-content"><div class="row-cn">甩给</div><div class="row-py">shuǎi gěi</div><div class="row-trans">押し付ける</div></div></div>
+      <div class="row"><div class="row-emoji">🤯</div><div class="row-content"><div class="row-cn">离谱到家</div><div class="row-py">lí pǔ dào jiā</div><div class="row-trans">ありえない、マジかよ</div></div></div>
+      <div class="row"><div class="row-emoji">🙅</div><div class="row-content"><div class="row-cn">别整这套</div><div class="row-py">bié zhěng zhè tào</div><div class="row-trans">そういう手口はやめろ</div></div></div>
+      <div class="row"><div class="row-emoji">🏃💨</div><div class="row-content"><div class="row-cn">溜之大吉</div><div class="row-py">liū zhī dà jí</div><div class="row-trans">さっさと逃げ去る</div></div></div>
+      <div class="row"><div class="row-emoji">🪆</div><div class="row-content"><div class="row-cn">套娃会议</div><div class="row-py">tào wá huì yì</div><div class="row-trans">入れ子式会議</div></div></div>
+      <div class="row"><div class="row-emoji">✊</div><div class="row-content"><div class="row-cn">逼着</div><div class="row-py">bī zhe</div><div class="row-trans">無理やり迫る</div></div></div>
+      <div class="row"><div class="row-emoji">📝</div><div class="row-content"><div class="row-cn">辞职报告</div><div class="row-py">cí zhí bào gào</div><div class="row-trans">退職届</div></div></div>
+      <div class="row"><div class="row-emoji">🛑</div><div class="row-content"><div class="row-cn">打住</div><div class="row-py">dǎ zhù</div><div class="row-trans">やめろ、ストップ</div></div></div>
+    </div>
+  </div>
+
+  <div class="video-block">
+    <div class="video-title">
+      <span class="cn">🎬 Видео 3：明明已经长大，但心愿依旧没变</span>
+      <span class="py">míng míng yǐ jīng zhǎng dà，dàn xīn yuàn yī jiù méi biàn</span>
+      <span class="trans">大人になったのに、願いは変わらない</span>
+    </div>
+    <div class="table-wrap">
+      <div class="row"><div class="row-emoji">🫠</div><div class="row-content"><div class="row-cn">人都麻了</div><div class="row-py">rén dōu má le</div><div class="row-trans">頭がパンクする、イライラする</div></div></div>
+      <div class="row"><div class="row-emoji">🧭</div><div class="row-content"><div class="row-cn">到头来</div><div class="row-py">dào tóu lái</div><div class="row-trans">結局</div></div></div>
+      <div class="row"><div class="row-emoji">🏢</div><div class="row-content"><div class="row-cn">物业费</div><div class="row-py">wù yè fèi</div><div class="row-trans">マンション管理費</div></div></div>
+      <div class="row"><div class="row-emoji">💀</div><div class="row-content"><div class="row-cn">卖命赚钱</div><div class="row-py">mài mìng zhuàn qián</div><div class="row-trans">命を削って金を稼ぐ</div></div></div>
+    </div>
+  </div>
+
+</div><!-- /lang-jp -->
+
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- ТАЙСКИЙ 🇹🇭 -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="lang-page" id="lang-th">
+
+  <div class="video-block">
+    <div class="video-title">
+      <span class="cn">🎬 Видео 1：中等阶层过去与现在</span>
+      <span class="py">zhōng děng jiē céng guò qù yǔ xiàn zài</span>
+      <span class="trans">ยุคกลางในอดีตและปัจจุบัน</span>
+    </div>
+    <div class="table-wrap">
+      <div class="row"><div class="row-emoji">😌</div><div class="row-content"><div class="row-cn">美滋滋</div><div class="row-py">měi zī zī</div><div class="row-trans">รู้สึกดีมาก มีความสุขสุดๆ</div></div></div>
+      <div class="row"><div class="row-emoji">✨</div><div class="row-content"><div class="row-cn">拿下</div><div class="row-py">ná xià</div><div class="row-trans">ได้มาแล้ว จัดการเรียบร้อย</div></div></div>
+      <div class="row"><div class="row-emoji">🏠</div><div class="row-content"><div class="row-cn">房贷</div><div class="row-py">fáng dài</div><div class="row-trans">สินเชื่อซื้อบ้าน</div></div></div>
+      <div class="row"><div class="row-emoji">📍</div><div class="row-content"><div class="row-cn">搁这儿</div><div class="row-py">gē zhèr</div><div class="row-trans">อยู่ตรงนี้ ที่นี่</div></div></div>
+      <div class="row"><div class="row-emoji">🍳</div><div class="row-content"><div class="row-cn">整了</div><div class="row-py">zhěng le</div><div class="row-trans">เตรียมไว้แล้ว ทำเสร็จแล้ว</div></div></div>
+      <div class="row"><div class="row-emoji">🙊</div><div class="row-content"><div class="row-cn">老实交代</div><div class="row-py">lǎo shi jiāo dài</div><div class="row-trans">พูดความจริงออกมา สารภาพเลย</div></div></div>
+      <div class="row"><div class="row-emoji">📅</div><div class="row-content"><div class="row-cn">分期</div><div class="row-py">fēn qī</div><div class="row-trans">ผ่อนชำระ</div></div></div>
+      <div class="row"><div class="row-emoji">💸</div><div class="row-content"><div class="row-cn">撸小额网贷</div><div class="row-py">lū xiǎo é wǎng dài</div><div class="row-trans">กู้เงินจำนวนเล็กทางออนไลน์</div></div></div>
+      <div class="row"><div class="row-emoji">🤦</div><div class="row-content"><div class="row-cn">搁这儿瞎折</div><div class="row-py">gē zhèr xiā zhé</div><div class="row-trans">มาทำอะไรไร้สาระอยู่ที่นี่</div></div></div>
+      <div class="row"><div class="row-emoji">🚀</div><div class="row-content"><div class="row-cn">脆冲</div><div class="row-py">cuì chōng</div><div class="row-trans">รีบไปเลย ไปด่วนๆ</div></div></div>
+      <div class="row"><div class="row-emoji">👀</div><div class="row-content"><div class="row-cn">瞅</div><div class="row-py">chǒu</div><div class="row-trans">แอบมอง ดูแปปเดียว</div></div></div>
+      <div class="row"><div class="row-emoji">🏃</div><div class="row-content"><div class="row-cn">溜</div><div class="row-py">liū</div><div class="row-trans">รีบหนีออกไป แอบไป</div></div></div>
+      <div class="row"><div class="row-emoji">🚶</div><div class="row-content"><div class="row-cn">晃一圈</div><div class="row-py">huàng yī quān</div><div class="row-trans">เดินเล่นหมุนรอบหนึ่งรอบ</div></div></div>
+      <div class="row"><div class="row-emoji">📦</div><div class="row-content"><div class="row-cn">堆了</div><div class="row-py">duī le</div><div class="row-trans">กองสะสมไว้เยอะมาก</div></div></div>
+      <div class="row"><div class="row-emoji">🍽️</div><div class="row-content"><div class="row-cn">贵奢餐厅</div><div class="row-py">guì shē cān tīng</div><div class="row-trans">ร้านอาหารหรูหราราคาแพง</div></div></div>
+      <div class="row"><div class="row-emoji">🆓</div><div class="row-content"><div class="row-cn">白嫖</div><div class="row-py">bái piáo</div><div class="row-trans">ได้ใช้ฟรี ไม่ต้องเสียเงิน</div></div></div>
+      <div class="row"><div class="row-emoji">🛋️</div><div class="row-content"><div class="row-cn">宅家</div><div class="row-py">zhái jiā</div><div class="row-trans">อยู่บ้านไม่ออกไปไหน</div></div></div>
+      <div class="row"><div class="row-emoji">🤷</div><div class="row-content"><div class="row-cn">好歹</div><div class="row-py">hǎo dǎi</div><div class="row-trans">อย่างน้อยก็ อย่างไรก็ตาม</div></div></div>
+      <div class="row"><div class="row-emoji">😲</div><div class="row-content"><div class="row-cn">好家伙</div><div class="row-py">hǎo jiā huo</div><div class="row-trans">ว้าว โอ้โห ไม่น่าเชื่อ</div></div></div>
+    </div>
+  </div>
+
+  <div class="video-block">
+    <div class="video-title">
+      <span class="cn">🎬 Видео 2：Z世代现象，他们不想加班</span>
+      <span class="py">Z shì dài xiàn xiàng，tā men bù xiǎng jiā bān</span>
+      <span class="trans">ปรากฏการณ์เจน Z พวกเขาไม่อยากทำงานล่วงเวลา</span>
+    </div>
+    <div class="table-wrap">
+      <div class="row"><div class="row-emoji">💨</div><div class="row-content"><div class="row-cn">原地消失</div><div class="row-py">yuán dì xiāo shī</div><div class="row-trans">หายไปจากที่ตรงนั้นทันที</div></div></div>
+      <div class="row"><div class="row-emoji">🌑</div><div class="row-content"><div class="row-cn">黑眼圈</div><div class="row-py">hēi yǎn quān</div><div class="row-trans">รอบตาดำ</div></div></div>
+      <div class="row"><div class="row-emoji">🥱</div><div class="row-content"><div class="row-cn">熬厚了</div><div class="row-py">áo hòu le</div><div class="row-trans">ดึกดื่นจนรอบตาดำเข้มขึ้น</div></div></div>
+      <div class="row"><div class="row-emoji">⏰</div><div class="row-content"><div class="row-cn">卡点</div><div class="row-py">kǎ diǎn</div><div class="row-trans">ทำพอดีเวลา ตรงเวลาเป๊ะ</div></div></div>
+      <div class="row"><div class="row-emoji">🏃💨</div><div class="row-content"><div class="row-cn">跑路</div><div class="row-py">pǎo lù</div><div class="row-trans">รีบกลับบ้าน หนีไปเร็วๆ</div></div></div>
+      <div class="row"><div class="row-emoji">👔</div><div class="row-content"><div class="row-cn">领导</div><div class="row-py">lǐng dǎo</div><div class="row-trans">หัวหน้า ผู้บังคับบัญชา</div></div></div>
+      <div class="row"><div class="row-emoji">⏳</div><div class="row-content"><div class="row-cn">耽搁</div><div class="row-py">dān ge</div><div class="row-trans">ล่าช้า ใช้เวลาเพิ่มเติม</div></div></div>
+      <div class="row"><div class="row-emoji">🧱</div><div class="row-content"><div class="row-cn">阶级隔离</div><div class="row-py">jiē jí gé lí</div><div class="row-trans">การแยกชั้นทางสังคม</div></div></div>
+      <div class="row"><div class="row-emoji">🐂🐎</div><div class="row-content"><div class="row-cn">牛马</div><div class="row-py">niú mǎ</div><div class="row-trans">คนงานที่ถูกข่มขู่ให้ทำงานหนัก</div></div></div>
+      <div class="row"><div class="row-emoji">🤔</div><div class="row-content"><div class="row-cn">敢情</div><div class="row-py">gǎn qíng</div><div class="row-trans">อ้อ ก็อย่างนี้แหละ</div></div></div>
+      <div class="row"><div class="row-emoji">🙇</div><div class="row-content"><div class="row-cn">磕头</div><div class="row-py">kē tóu</div><div class="row-trans">คำนับลงพื้น ขออภัยอย่างมาก</div></div></div>
+      <div class="row"><div class="row-emoji">🦮</div><div class="row-content"><div class="row-cn">遛狗</div><div class="row-py">liù gǒu</div><div class="row-trans">พาหมาไปเดินเล่น</div></div></div>
+      <div class="row"><div class="row-emoji">🫳</div><div class="row-content"><div class="row-cn">甩给</div><div class="row-py">shuǎi gěi</div><div class="row-trans">โยนภาระให้คนอื่น</div></div></div>
+      <div class="row"><div class="row-emoji">🤯</div><div class="row-content"><div class="row-cn">离谱到家</div><div class="row-py">lí pǔ dào jiā</div><div class="row-trans">ไม่มีเหตุผลเลย บ้าจริงๆ</div></div></div>
+      <div class="row"><div class="row-emoji">🙅</div><div class="row-content"><div class="row-cn">别整这套</div><div class="row-py">bié zhěng zhè tào</div><div class="row-trans">อย่ามาทำแบบนี้อีก</div></div></div>
+      <div class="row"><div class="row-emoji">🏃💨</div><div class="row-content"><div class="row-cn">溜之大吉</div><div class="row-py">liū zhī dà jí</div><div class="row-trans">หายตัวไปอย่างรวดเร็ว</div></div></div>
+      <div class="row"><div class="row-emoji">🪆</div><div class="row-content"><div class="row-cn">套娃会议</div><div class="row-py">tào wá huì yì</div><div class="row-trans">ประชุมซ้อนประชุม ไม่มีที่สิ้นสุด</div></div></div>
+      <div class="row"><div class="row-emoji">✊</div><div class="row-content"><div class="row-cn">逼着</div><div class="row-py">bī zhe</div><div class="row-trans">บังคับให้ทำ</div></div></div>
+      <div class="row"><div class="row-emoji">📝</div><div class="row-content"><div class="row-cn">辞职报告</div><div class="row-py">cí zhí bào gào</div><div class="row-trans">หนังสือลาออก</div></div></div>
+      <div class="row"><div class="row-emoji">🛑</div><div class="row-content"><div class="row-cn">打住</div><div class="row-py">dǎ zhù</div><div class="row-trans">หยุดเดี๋ยวนี้</div></div></div>
+    </div>
+  </div>
+
+  <div class="video-block">
+    <div class="video-title">
+      <span class="cn">🎬 Видео 3：明明已经长大，但心愿依旧没变</span>
+      <span class="py">míng míng yǐ jīng zhǎng dà，dàn xīn yuàn yī jiù méi biàn</span>
+      <span class="trans">โตแล้วแต่ความปรารถนายังเหมือนเดิม</span>
+    </div>
+    <div class="table-wrap">
+      <div class="row"><div class="row-emoji">🫠</div><div class="row-content"><div class="row-cn">人都麻了</div><div class="row-py">rén dōu má le</div><div class="row-trans">หมดแรง รู้สึกอึดอัดใจมาก</div></div></div>
+      <div class="row"><div class="row-emoji">🧭</div><div class="row-content"><div class="row-cn">到头来</div><div class="row-py">dào tóu lái</div><div class="row-trans">สุดท้ายแล้ว ในที่สุด</div></div></div>
+      <div class="row"><div class="row-emoji">🏢</div><div class="row-content"><div class="row-cn">物业费</div><div class="row-py">wù yè fèi</div><div class="row-trans">ค่าบริการอาคารและส่วนกลางหมู่บ้าน</div></div></div>
+      <div class="row"><div class="row-emoji">💀</div><div class="row-content"><div class="row-cn">卖命赚钱</div><div class="row-py">mài mìng zhuàn qián</div><div class="row-trans">ทำงานเหน็ดเหนื่อยเสียสละเพื่อหาเงิน</div></div></div>
+    </div>
+  </div>
+
+</div><!-- /lang-th -->
+
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- КОРЕЙСКИЙ 🇰🇷 -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="lang-page" id="lang-kr">
+
+  <div class="video-block">
+    <div class="video-title">
+      <span class="cn">🎬 Видео 1：中等阶层过去与现在</span>
+      <span class="py">zhōng děng jiē céng guò qù yǔ xiàn zài</span>
+      <span class="trans">중류계층의 과거와 현재</span>
+    </div>
+    <div class="table-wrap">
+      <div class="row"><div class="row-emoji">😌</div><div class="row-content"><div class="row-cn">美滋滋</div><div class="row-py">měi zī zī</div><div class="row-trans">기분이 아주 좋다, 짱 행복해</div></div></div>
+      <div class="row"><div class="row-emoji">✨</div><div class="row-content"><div class="row-cn">拿下</div><div class="row-py">ná xià</div><div class="row-trans">겟했다, 손에 넣었다</div></div></div>
+      <div class="row"><div class="row-emoji">🏠</div><div class="row-content"><div class="row-cn">房贷</div><div class="row-py">fáng dài</div><div class="row-trans">주택 대출</div></div></div>
+      <div class="row"><div class="row-emoji">📍</div><div class="row-content"><div class="row-cn">搁这儿</div><div class="row-py">gē zhèr</div><div class="row-trans">여기서, 이곳에</div></div></div>
+      <div class="row"><div class="row-emoji">🍳</div><div class="row-content"><div class="row-cn">整了</div><div class="row-py">zhěng le</div><div class="row-trans">준비해 놓았다, 해버렸다</div></div></div>
+      <div class="row"><div class="row-emoji">🙊</div><div class="row-content"><div class="row-cn">老实交代</div><div class="row-py">lǎo shi jiāo dài</div><div class="row-trans">솔직히 털어놔라, 실토해</div></div></div>
+      <div class="row"><div class="row-emoji">📅</div><div class="row-content"><div class="row-cn">分期</div><div class="row-py">fēn qī</div><div class="row-trans">할부 지불</div></div></div>
+      <div class="row"><div class="row-emoji">💸</div><div class="row-content"><div class="row-cn">撸小额网贷</div><div class="row-py">lū xiǎo é wǎng dài</div><div class="row-trans">소액 인터넷 대출을 빌리다</div></div></div>
+      <div class="row"><div class="row-emoji">🤦</div><div class="row-content"><div class="row-cn">搁这儿瞎折</div><div class="row-py">gē zhèr xiā zhé</div><div class="row-trans">여기서 쓸데없는 짓을 하다</div></div></div>
+      <div class="row"><div class="row-emoji">🚀</div><div class="row-content"><div class="row-cn">脆冲</div><div class="row-py">cuì chōng</div><div class="row-trans">얼른 가버리자, 후다닥 출발</div></div></div>
+      <div class="row"><div class="row-emoji">👀</div><div class="row-content"><div class="row-cn">瞅</div><div class="row-py">chǒu</div><div class="row-trans">슬쩍 훑어보다, 힐끗보다</div></div></div>
+      <div class="row"><div class="row-emoji">🏃</div><div class="row-content"><div class="row-cn">溜</div><div class="row-py">liū</div><div class="row-trans">슬쩍 빠져나가다</div></div></div>
+      <div class="row"><div class="row-emoji">🚶</div><div class="row-content"><div class="row-cn">晃一圈</div><div class="row-py">huàng yī quān</div><div class="row-trans">한 바퀴 산책하다</div></div></div>
+      <div class="row"><div class="row-emoji">📦</div><div class="row-content"><div class="row-cn">堆了</div><div class="row-py">duī le</div><div class="row-trans">잔뜩 쌓아 두었다</div></div></div>
+      <div class="row"><div class="row-emoji">🍽️</div><div class="row-content"><div class="row-cn">贵奢餐厅</div><div class="row-py">guì shē cān tīng</div><div class="row-trans">고급 레스토랑</div></div></div>
+      <div class="row"><div class="row-emoji">🆓</div><div class="row-content"><div class="row-cn">白嫖</div><div class="row-py">bái piáo</div><div class="row-trans">공짜로 이용하다, 무료로 얻다</div></div></div>
+      <div class="row"><div class="row-emoji">🛋️</div><div class="row-content"><div class="row-cn">宅家</div><div class="row-py">zhái jiā</div><div class="row-trans">집에 틀어박히다</div></div></div>
+      <div class="row"><div class="row-emoji">🤷</div><div class="row-content"><div class="row-cn">好歹</div><div class="row-py">hǎo dǎi</div><div class="row-trans">적어도, 어찌 되었든</div></div></div>
+      <div class="row"><div class="row-emoji">😲</div><div class="row-content"><div class="row-cn">好家伙</div><div class="row-py">hǎo jiā huo</div><div class="row-trans">어머나, 대박!</div></div></div>
+    </div>
+  </div>
+
+  <div class="video-block">
+    <div class="video-title">
+      <span class="cn">🎬 Видео 2：Z世代现象，他们不想加班</span>
+      <span class="py">Z shì dài xiàn xiàng，tā men bù xiǎng jiā bān</span>
+      <span class="trans">Z세대 현상, 그들은 야근하기 싫어한다</span>
+    </div>
+    <div class="table-wrap">
+      <div class="row"><div class="row-emoji">💨</div><div class="row-content"><div class="row-cn">原地消失</div><div class="row-py">yuán dì xiāo shī</div><div class="row-trans">그 자리에서 바로 사라지다</div></div></div>
+      <div class="row"><div class="row-emoji">🌑</div><div class="row-content"><div class="row-cn">黑眼圈</div><div class="row-py">hēi yǎn quān</div><div class="row-trans">다크서클</div></div></div>
+      <div class="row"><div class="row-emoji">🥱</div><div class="row-content"><div class="row-cn">熬厚了</div><div class="row-py">áo hòu le</div><div class="row-trans">밤샘으로 다크서클이 짙어지다</div></div></div>
+      <div class="row"><div class="row-emoji">⏰</div><div class="row-content"><div class="row-cn">卡点</div><div class="row-py">kǎ diǎn</div><div class="row-trans">시간 딱 맞춰서</div></div></div>
+      <div class="row"><div class="row-emoji">🏃💨</div><div class="row-content"><div class="row-cn">跑路</div><div class="row-py">pǎo lù</div><div class="row-trans">얼른 퇴근하고 도망가다</div></div></div>
+      <div class="row"><div class="row-emoji">👔</div><div class="row-content"><div class="row-cn">领导</div><div class="row-py">lǐng dǎo</div><div class="row-trans">상사, 리더</div></div></div>
+      <div class="row"><div class="row-emoji">⏳</div><div class="row-content"><div class="row-cn">耽搁</div><div class="row-py">dān ge</div><div class="row-trans">지연되다, 시간을 낭비하다</div></div></div>
+      <div class="row"><div class="row-emoji">🧱</div><div class="row-content"><div class="row-cn">阶级隔离</div><div class="row-py">jiē jí gé lí</div><div class="row-trans">계급 격리</div></div></div>
+      <div class="row"><div class="row-emoji">🐂🐎</div><div class="row-content"><div class="row-cn">牛马</div><div class="row-py">niú mǎ</div><div class="row-trans">착취당하는 노동자, 개노가다</div></div></div>
+      <div class="row"><div class="row-emoji">🤔</div><div class="row-content"><div class="row-cn">敢情</div><div class="row-py">gǎn qíng</div><div class="row-trans">아~ 그래서 그렇군</div></div></div>
+      <div class="row"><div class="row-emoji">🙇</div><div class="row-content"><div class="row-cn">磕头</div><div class="row-py">kē tóu</div><div class="row-trans">머리를 숙이다, 큰절 올리다</div></div></div>
+      <div class="row"><div class="row-emoji">🦮</div><div class="row-content"><div class="row-cn">遛狗</div><div class="row-py">liù gǒu</div><div class="row-trans">강아지 산책시키다</div></div></div>
+      <div class="row"><div class="row-emoji">🫳</div><div class="row-content"><div class="row-cn">甩给</div><div class="row-py">shuǎi gěi</div><div class="row-trans">떠넘기다, 책임을 넘기다</div></div></div>
+      <div class="row"><div class="row-emoji">🤯</div><div class="row-content"><div class="row-cn">离谱到家</div><div class="row-py">lí pǔ dào jiā</div><div class="row-trans">말도 안 돼, 너무 황당하다</div></div></div>
+      <div class="row"><div class="row-emoji">🙅</div><div class="row-content"><div class="row-cn">别整这套</div><div class="row-py">bié zhěng zhè tào</div><div class="row-trans">그런 수작 부리지 마</div></div></div>
+      <div class="row"><div class="row-emoji">🏃💨</div><div class="row-content"><div class="row-cn">溜之大吉</div><div class="row-py">liū zhī dà jí</div><div class="row-trans">슬쩍 사라져 버리다</div></div></div>
+      <div class="row"><div class="row-emoji">🪆</div><div class="row-content"><div class="row-cn">套娃会议</div><div class="row-py">tào wá huì yì</div><div class="row-trans">중첩 회의, 끝없는 회의</div></div></div>
+      <div class="row"><div class="row-emoji">✊</div><div class="row-content"><div class="row-cn">逼着</div><div class="row-py">bī zhe</div><div class="row-trans">억지로 강요하다</div></div></div>
+      <div class="row"><div class="row-emoji">📝</div><div class="row-content"><div class="row-cn">辞职报告</div><div class="row-py">cí zhí bào gào</div><div class="row-trans">사직서</div></div></div>
+      <div class="row"><div class="row-emoji">🛑</div><div class="row-content"><div class="row-cn">打住</div><div class="row-py">dǎ zhù</div><div class="row-trans">그만해, 멈춰!</div></div></div>
+    </div>
+  </div>
+
+  <div class="video-block">
+    <div class="video-title">
+      <span class="cn">🎬 Видео 3：明明已经长大，但心愿依旧没变</span>
+      <span class="py">míng míng yǐ jīng zhǎng dà，dàn xīn yuàn yī jiù méi biàn</span>
+      <span class="trans">어른이 됐지만 소망은 여전히 같다</span>
+    </div>
+    <div class="table-wrap">
+      <div class="row"><div class="row-emoji">🫠</div><div class="row-content"><div class="row-cn">人都麻了</div><div class="row-py">rén dōu má le</div><div class="row-trans">멘붕 오다, 너무 지쳐버리다</div></div></div>
+      <div class="row"><div class="row-emoji">🧭</div><div class="row-content"><div class="row-cn">到头来</div><div class="row-py">dào tóu lái</div><div class="row-trans">결국, 막상 가보니</div></div></div>
+      <div class="row"><div class="row-emoji">🏢</div><div class="row-content"><div class="row-cn">物业费</div><div class="row-py">wù yè fèi</div><div class="row-trans">아파트 관리비</div></div></div>
+      <div class="row"><div class="row-emoji">💀</div><div class="row-content"><div class="row-cn">卖命赚钱</div><div class="row-py">mài mìng zhuàn qián</div><div class="row-trans">목숨 걸고 돈을 벌다</div></div></div>
+    </div>
+  </div>
+
+</div><!-- /lang-kr -->
+
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- БИРМАНСКИЙ 🇲🇲 -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="lang-page" id="lang-mm">
+
+  <div class="video-block">
+    <div class="video-title">
+      <span class="cn">🎬 Видео 1：中等阶层过去与现在</span>
+      <span class="py">zhōng děng jiē céng guò qù yǔ xiàn zài</span>
+      <span class="trans">အလယ်အလတ်လူတန်းစား၏အတိတ်နှင့်ပစ္စုပ္ပန်</span>
+    </div>
+    <div class="table-wrap">
+      <div class="row"><div class="row-emoji">😌</div><div class="row-content"><div class="row-cn">美滋滋</div><div class="row-py">měi zī zī</div><div class="row-trans">စိတ်ချမ်းသာလွန်းသည်၊ အလွန်ပျော်ရွှင်သည်</div></div></div>
+      <div class="row"><div class="row-emoji">✨</div><div class="row-content"><div class="row-cn">拿下</div><div class="row-py">ná xià</div><div class="row-trans">ရရှိပြီ၊ အောင်မြင်စွာရယူသည်</div></div></div>
+      <div class="row"><div class="row-emoji">🏠</div><div class="row-content"><div class="row-cn">房贷</div><div class="row-py">fáng dài</div><div class="row-trans">အိမ်ချေးငွေ</div></div></div>
+      <div class="row"><div class="row-emoji">📍</div><div class="row-content"><div class="row-cn">搁这儿</div><div class="row-py">gē zhèr</div><div class="row-trans">ဤနေရာ၌၊ ဒီမှာ</div></div></div>
+      <div class="row"><div class="row-emoji">🍳</div><div class="row-content"><div class="row-cn">整了</div><div class="row-py">zhěng le</div><div class="row-trans">ပြင်ဆင်ပြီးပြီ၊ လုပ်ပြီးသွားပြီ</div></div></div>
+      <div class="row"><div class="row-emoji">🙊</div><div class="row-content"><div class="row-cn">老实交代</div><div class="row-py">lǎo shi jiāo dài</div><div class="row-trans">အမှန်အတိုင်းပြောပါ၊ ဝန်ခံပါ</div></div></div>
+      <div class="row"><div class="row-emoji">📅</div><div class="row-content"><div class="row-cn">分期</div><div class="row-py">fēn qī</div><div class="row-trans">အရစ်ကျပေးချေခြင်း</div></div></div>
+      <div class="row"><div class="row-emoji">💸</div><div class="row-content"><div class="row-cn">撸小额网贷</div><div class="row-py">lū xiǎo é wǎng dài</div><div class="row-trans">အွန်လိုင်းမှအသေးစားချေးငွေယူသည်</div></div></div>
+      <div class="row"><div class="row-emoji">🤦</div><div class="row-content"><div class="row-cn">搁这儿瞎折</div><div class="row-py">gē zhèr xiā zhé</div><div class="row-trans">ဒီမှာအသုံးမဝင်တဲ့အလုပ်တွေလုပ်နေသည်</div></div></div>
+      <div class="row"><div class="row-emoji">🚀</div><div class="row-content"><div class="row-cn">脆冲</div><div class="row-py">cuì chōng</div><div class="row-trans">အမြန်သွားကြ၊ ချက်ချင်းထွက်ခွာသည်</div></div></div>
+      <div class="row"><div class="row-emoji">👀</div><div class="row-content"><div class="row-cn">瞅</div><div class="row-py">chǒu</div><div class="row-trans">ချောင်းကြည့်သည်၊ ခဏကြည့်သည်</div></div></div>
+      <div class="row"><div class="row-emoji">🏃</div><div class="row-content"><div class="row-cn">溜</div><div class="row-py">liū</div><div class="row-trans">တိတ်တဆိတ်ထွက်ပြေးသည်</div></div></div>
+      <div class="row"><div class="row-emoji">🚶</div><div class="row-content"><div class="row-cn">晃一圈</div><div class="row-py">huàng yī quān</div><div class="row-trans">တစ်ပတ်လှည့်ပြီးလမ်းလျှောက်သည်</div></div></div>
+      <div class="row"><div class="row-emoji">📦</div><div class="row-content"><div class="row-cn">堆了</div><div class="row-py">duī le</div><div class="row-trans">အများကြီးစုပုံထားသည်</div></div></div>
+      <div class="row"><div class="row-emoji">🍽️</div><div class="row-content"><div class="row-cn">贵奢餐厅</div><div class="row-py">guì shē cān tīng</div><div class="row-trans">ဇိမ်ခံစားသောက်ဆိုင်ကြီး</div></div></div>
+      <div class="row"><div class="row-emoji">🆓</div><div class="row-content"><div class="row-cn">白嫖</div><div class="row-py">bái piáo</div><div class="row-trans">အခမဲ့အသုံးပြုသည်၊ ပိုက်ဆံမပေးဘဲရယူသည်</div></div></div>
+      <div class="row"><div class="row-emoji">🛋️</div><div class="row-content"><div class="row-cn">宅家</div><div class="row-py">zhái jiā</div><div class="row-trans">အိမ်ထဲမှာပဲနေသည်၊ အပြင်မထွက်</div></div></div>
+      <div class="row"><div class="row-emoji">🤷</div><div class="row-content"><div class="row-cn">好歹</div><div class="row-py">hǎo dǎi</div><div class="row-trans">အနည်းဆုံးတော့၊ ဘယ်လိုပဲဖြစ်ဖြစ်</div></div></div>
+      <div class="row"><div class="row-emoji">😲</div><div class="row-content"><div class="row-cn">好家伙</div><div class="row-py">hǎo jiā huo</div><div class="row-trans">ဝိုး၊ မယုံနိုင်စရာ!</div></div></div>
+    </div>
+  </div>
+
+  <div class="video-block">
+    <div class="video-title">
+      <span class="cn">🎬 Видео 2：Z世代现象，他们不想加班</span>
+      <span class="py">Z shì dài xiàn xiàng，tā men bù xiǎng jiā bān</span>
+      <span class="trans">Z မျိုးဆက်ဖြစ်စဉ်၊ သူတို့အချိန်ပိုအလုပ်လုပ်ချင်ကြဘူး</span>
+    </div>
+    <div class="table-wrap">
+      <div class="row"><div class="row-emoji">💨</div><div class="row-content"><div class="row-cn">原地消失</div><div class="row-py">yuán dì xiāo shī</div><div class="row-trans">ထိုနေရာမှာပင်ရုတ်တရက်ပျောက်ကွယ်သွားသည်</div></div></div>
+      <div class="row"><div class="row-emoji">🌑</div><div class="row-content"><div class="row-cn">黑眼圈</div><div class="row-py">hēi yǎn quān</div><div class="row-trans">မျက်လုံးအောက်အမည်းစက်</div></div></div>
+      <div class="row"><div class="row-emoji">🥱</div><div class="row-content"><div class="row-cn">熬厚了</div><div class="row-py">áo hòu le</div><div class="row-trans">ညဥ့်နက်စွာအလုပ်လုပ်ရာမှအမည်းစက်ပိုထူလာသည်</div></div></div>
+      <div class="row"><div class="row-emoji">⏰</div><div class="row-content"><div class="row-cn">卡点</div><div class="row-py">kǎ diǎn</div><div class="row-trans">အချိန်အတိအကျကိုက်ညီအောင်လုပ်သည်</div></div></div>
+      <div class="row"><div class="row-emoji">🏃💨</div><div class="row-content"><div class="row-cn">跑路</div><div class="row-py">pǎo lù</div><div class="row-trans">အမြန်ပြန်သည်၊ အမြန်ထွက်ပြေးသည်</div></div></div>
+      <div class="row"><div class="row-emoji">👔</div><div class="row-content"><div class="row-cn">领导</div><div class="row-py">lǐng dǎo</div><div class="row-trans">အကြီးအကဲ၊ ခေါင်းဆောင်</div></div></div>
+      <div class="row"><div class="row-emoji">⏳</div><div class="row-content"><div class="row-cn">耽搁</div><div class="row-py">dān ge</div><div class="row-trans">နှောင့်နှေးသည်၊ အချိန်ဖြုန်းသည်</div></div></div>
+      <div class="row"><div class="row-emoji">🧱</div><div class="row-content"><div class="row-cn">阶级隔离</div><div class="row-py">jiē jí gé lí</div><div class="row-trans">လူတန်းစားခွဲခြားခြင်း</div></div></div>
+      <div class="row"><div class="row-emoji">🐂🐎</div><div class="row-content"><div class="row-cn">牛马</div><div class="row-py">niú mǎ</div><div class="row-trans">အမြတ်ထုတ်ခံရသောအလုပ်သမား</div></div></div>
+      <div class="row"><div class="row-emoji">🤔</div><div class="row-content"><div class="row-cn">敢情</div><div class="row-py">gǎn qíng</div><div class="row-trans">အော်၊ ဒါကြောင့်ဖြစ်နေခြင်းပေါ့</div></div></div>
+      <div class="row"><div class="row-emoji">🙇</div><div class="row-content"><div class="row-cn">磕头</div><div class="row-py">kē tóu</div><div class="row-trans">ဦးခေါင်းငုံ့၍ရိုသေခြင်း၊ အကြီးအကျယ်တောင်းပန်ခြင်း</div></div></div>
+      <div class="row"><div class="row-emoji">🦮</div><div class="row-content"><div class="row-cn">遛狗</div><div class="row-py">liù gǒu</div><div class="row-trans">ခွေးကိုလမ်းလျှောက်ထုတ်ပေးသည်</div></div></div>
+      <div class="row"><div class="row-emoji">🫳</div><div class="row-content"><div class="row-cn">甩给</div><div class="row-py">shuǎi gěi</div><div class="row-trans">တာဝန်ကိုအခြားသူထံလွှဲပေးသည်</div></div></div>
+      <div class="row"><div class="row-emoji">🤯</div><div class="row-content"><div class="row-cn">离谱到家</div><div class="row-py">lí pǔ dào jiā</div><div class="row-trans">လုံးဝကျိုးကြောင်းမဆီလျော်၊ အလွန်အံ့သြဖွယ်</div></div></div>
+      <div class="row"><div class="row-emoji">🙅</div><div class="row-content"><div class="row-cn">别整这套</div><div class="row-py">bié zhěng zhè tào</div><div class="row-trans">ဒီလိုလှည့်ကွက်မလုပ်နဲ့</div></div></div>
+      <div class="row"><div class="row-emoji">🏃💨</div><div class="row-content"><div class="row-cn">溜之大吉</div><div class="row-py">liū zhī dà jí</div><div class="row-trans">တိတ်တဆိတ်အမြန်ပျောက်ကွယ်သွားသည်</div></div></div>
+      <div class="row"><div class="row-emoji">🪆</div><div class="row-content"><div class="row-cn">套娃会议</div><div class="row-py">tào wá huì yì</div><div class="row-trans">အစည်းအဝေးထပ်ထပ်ခေါ်နေခြင်း၊ အဆုံးမရှိအစည်းအဝေး</div></div></div>
+      <div class="row"><div class="row-emoji">✊</div><div class="row-content"><div class="row-cn">逼着</div><div class="row-py">bī zhe</div><div class="row-trans">အတင်းအကျပ်လုပ်ခိုင်းသည်</div></div></div>
+      <div class="row"><div class="row-emoji">📝</div><div class="row-content"><div class="row-cn">辞职报告</div><div class="row-py">cí zhí bào gào</div><div class="row-trans">အလုပ်နုတ်ထွက်စာ</div></div></div>
+      <div class="row"><div class="row-emoji">🛑</div><div class="row-content"><div class="row-cn">打住</div><div class="row-py">dǎ zhù</div><div class="row-trans">ရပ်တန့်စေ၊ ဒီမှာရပ်!</div></div></div>
+    </div>
+  </div>
+
+  <div class="video-block">
+    <div class="video-title">
+      <span class="cn">🎬 Видео 3：明明已经长大，但心愿依旧没变</span>
+      <span class="py">míng míng yǐ jīng zhǎng dà，dàn xīn yuàn yī jiù méi biàn</span>
+      <span class="trans">အရွယ်ရောက်ပြီဖြစ်သော်လည်းဆန္ဒသည်မပြောင်းလဲသေးပါ</span>
+    </div>
+    <div class="table-wrap">
+      <div class="row"><div class="row-emoji">🫠</div><div class="row-content"><div class="row-cn">人都麻了</div><div class="row-py">rén dōu má le</div><div class="row-trans">အလွန်ပင်ပန်းနွမ်းနယ်ပြီးစိတ်ညစ်နေသည်</div></div></div>
+      <div class="row"><div class="row-emoji">🧭</div><div class="row-content"><div class="row-cn">到头来</div><div class="row-py">dào tóu lái</div><div class="row-trans">နောက်ဆုံးမှာ၊ နောက်ဆုံးရလဒ်အရ</div></div></div>
+      <div class="row"><div class="row-emoji">🏢</div><div class="row-content"><div class="row-cn">物业费</div><div class="row-py">wù yè fèi</div><div class="row-trans">အဆောက်အဦထိန်းသိမ်းစရိတ်</div></div></div>
+      <div class="row"><div class="row-emoji">💀</div><div class="row-content"><div class="row-cn">卖命赚钱</div><div class="row-py">mài mìng zhuàn qián</div><div class="row-trans">အသက်စွန့်ပြီးငွေရှာသည်</div></div></div>
+    </div>
+  </div>
+
+</div><!-- /lang-mm -->
+
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- ИСПАНСКИЙ (МЕКСИКА) 🇲🇽 -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="lang-page" id="lang-mx">
+
+  <div class="video-block">
+    <div class="video-title">
+      <span class="cn">🎬 Видео 1：中等阶层过去与现在</span>
+      <span class="py">zhōng děng jiē céng guò qù yǔ xiàn zài</span>
+      <span class="trans">Clase media: pasado y presente</span>
+    </div>
+    <div class="table-wrap">
+      <div class="row"><div class="row-emoji">😌</div><div class="row-content"><div class="row-cn">美滋滋</div><div class="row-py">měi zī zī</div><div class="row-trans">me siento muy feliz, estoy supercontento</div></div></div>
+      <div class="row"><div class="row-emoji">✨</div><div class="row-content"><div class="row-cn">拿下</div><div class="row-py">ná xià</div><div class="row-trans">lo conseguí, ya lo tengo</div></div></div>
+      <div class="row"><div class="row-emoji">🏠</div><div class="row-content"><div class="row-cn">房贷</div><div class="row-py">fáng dài</div><div class="row-trans">crédito hipotecario</div></div></div>
+      <div class="row"><div class="row-emoji">📍</div><div class="row-content"><div class="row-cn">搁这儿</div><div class="row-py">gē zhèr</div><div class="row-trans">aquí, en este lugar</div></div></div>
+      <div class="row"><div class="row-emoji">🍳</div><div class="row-content"><div class="row-cn">整了</div><div class="row-py">zhěng le</div><div class="row-trans">ya lo preparé, ya lo hice</div></div></div>
+      <div class="row"><div class="row-emoji">🙊</div><div class="row-content"><div class="row-cn">老实交代</div><div class="row-py">lǎo shi jiāo dài</div><div class="row-trans">dime la verdad, confiesa</div></div></div>
+      <div class="row"><div class="row-emoji">📅</div><div class="row-content"><div class="row-cn">分期</div><div class="row-py">fēn qī</div><div class="row-trans">pagar a plazos</div></div></div>
+      <div class="row"><div class="row-emoji">💸</div><div class="row-content"><div class="row-cn">撸小额网贷</div><div class="row-py">lū xiǎo é wǎng dài</div><div class="row-trans">pedir un préstamo pequeño por internet</div></div></div>
+      <div class="row"><div class="row-emoji">🤦</div><div class="row-content"><div class="row-cn">搁这儿瞎折</div><div class="row-py">gē zhèr xiā zhé</div><div class="row-trans">andar haciendo tonterías aquí</div></div></div>
+      <div class="row"><div class="row-emoji">🚀</div><div class="row-content"><div class="row-cn">脆冲</div><div class="row-py">cuì chōng</div><div class="row-trans">vámonos rápido, salimos ya</div></div></div>
+      <div class="row"><div class="row-emoji">👀</div><div class="row-content"><div class="row-cn">瞅</div><div class="row-py">chǒu</div><div class="row-trans">echar un vistazo, mirar de reojo</div></div></div>
+      <div class="row"><div class="row-emoji">🏃</div><div class="row-content"><div class="row-cn">溜</div><div class="row-py">liū</div><div class="row-trans">escabullirse, irse sin que se note</div></div></div>
+      <div class="row"><div class="row-emoji">🚶</div><div class="row-content"><div class="row-cn">晃一圈</div><div class="row-py">huàng yī quān</div><div class="row-trans">dar una vuelta, pasear un rato</div></div></div>
+      <div class="row"><div class="row-emoji">📦</div><div class="row-content"><div class="row-cn">堆了</div><div class="row-py">duī le</div><div class="row-trans">tener muchas cosas amontonadas</div></div></div>
+      <div class="row"><div class="row-emoji">🍽️</div><div class="row-content"><div class="row-cn">贵奢餐厅</div><div class="row-py">guì shē cān tīng</div><div class="row-trans">restaurante lujoso y caro</div></div></div>
+      <div class="row"><div class="row-emoji">🆓</div><div class="row-content"><div class="row-cn">白嫖</div><div class="row-py">bái piáo</div><div class="row-trans">usar algo sin pagar nada</div></div></div>
+      <div class="row"><div class="row-emoji">🛋️</div><div class="row-content"><div class="row-cn">宅家</div><div class="row-py">zhái jiā</div><div class="row-trans">quedarse en casa sin salir</div></div></div>
+      <div class="row"><div class="row-emoji">🤷</div><div class="row-content"><div class="row-cn">好歹</div><div class="row-py">hǎo dǎi</div><div class="row-trans">al menos, de cualquier forma</div></div></div>
+      <div class="row"><div class="row-emoji">😲</div><div class="row-content"><div class="row-cn">好家伙</div><div class="row-py">hǎo jiā huo</div><div class="row-trans">¡vaya!, ¡no lo puedo creer!</div></div></div>
+    </div>
+  </div>
+
+  <div class="video-block">
+    <div class="video-title">
+      <span class="cn">🎬 Видео 2：Z世代现象，他们不想加班</span>
+      <span class="py">Z shì dài xiàn xiàng，tā men bù xiǎng jiā bān</span>
+      <span class="trans">Fenómeno generación Z: no quieren horas extra</span>
+    </div>
+    <div class="table-wrap">
+      <div class="row"><div class="row-emoji">💨</div><div class="row-content"><div class="row-cn">原地消失</div><div class="row-py">yuán dì xiāo shī</div><div class="row-trans">desaparecer de ahí en un instante</div></div></div>
+      <div class="row"><div class="row-emoji">🌑</div><div class="row-content"><div class="row-cn">黑眼圈</div><div class="row-py">hēi yǎn quān</div><div class="row-trans">ojeras</div></div></div>
+      <div class="row"><div class="row-emoji">🥱</div><div class="row-content"><div class="row-cn">熬厚了</div><div class="row-py">áo hòu le</div><div class="row-trans">las ojeras se marcaron por trasnochar</div></div></div>
+      <div class="row"><div class="row-emoji">⏰</div><div class="row-content"><div class="row-cn">卡点</div><div class="row-py">kǎ diǎn</div><div class="row-trans">llegar justo a la hora exacta</div></div></div>
+      <div class="row"><div class="row-emoji">🏃💨</div><div class="row-content"><div class="row-cn">跑路</div><div class="row-py">pǎo lù</div><div class="row-trans">irse rápido del trabajo</div></div></div>
+      <div class="row"><div class="row-emoji">👔</div><div class="row-content"><div class="row-cn">领导</div><div class="row-py">lǐng dǎo</div><div class="row-trans">jefe, superior</div></div></div>
+      <div class="row"><div class="row-emoji">⏳</div><div class="row-content"><div class="row-cn">耽搁</div><div class="row-py">dān ge</div><div class="row-trans">retrasarse, perder el tiempo</div></div></div>
+      <div class="row"><div class="row-emoji">🧱</div><div class="row-content"><div class="row-cn">阶级隔离</div><div class="row-py">jiē jí gé lí</div><div class="row-trans">separación de clases sociales</div></div></div>
+      <div class="row"><div class="row-emoji">🐂🐎</div><div class="row-content"><div class="row-cn">牛马</div><div class="row-py">niú mǎ</div><div class="row-trans">trabajador explotado</div></div></div>
+      <div class="row"><div class="row-emoji">🤔</div><div class="row-content"><div class="row-cn">敢情</div><div class="row-py">gǎn qíng</div><div class="row-trans">ah, así que por eso</div></div></div>
+      <div class="row"><div class="row-emoji">🙇</div><div class="row-content"><div class="row-cn">磕头</div><div class="row-py">kē tóu</div><div class="row-trans">inclinar la cabeza para pedir perdón</div></div></div>
+      <div class="row"><div class="row-emoji">🦮</div><div class="row-content"><div class="row-cn">遛狗</div><div class="row-py">liù gǒu</div><div class="row-trans">sacar al perro a pasear</div></div></div>
+      <div class="row"><div class="row-emoji">🫳</div><div class="row-content"><div class="row-cn">甩给</div><div class="row-py">shuǎi gěi</div><div class="row-trans">echarle la responsabilidad a otro</div></div></div>
+      <div class="row"><div class="row-emoji">🤯</div><div class="row-content"><div class="row-cn">离谱到家</div><div class="row-py">lí pǔ dào jiā</div><div class="row-trans">¡es absurdo!, ¡no tiene sentido!</div></div></div>
+      <div class="row"><div class="row-emoji">🙅</div><div class="row-content"><div class="row-cn">别整这套</div><div class="row-py">bié zhěng zhè tào</div><div class="row-trans">no hagas ese tipo de trucos</div></div></div>
+      <div class="row"><div class="row-emoji">🏃💨</div><div class="row-content"><div class="row-cn">溜之大吉</div><div class="row-py">liū zhī dà jí</div><div class="row-trans">escapar sin que nadie se dé cuenta</div></div></div>
+      <div class="row"><div class="row-emoji">🪆</div><div class="row-content"><div class="row-cn">套娃会议</div><div class="row-py">tào wá huì yì</div><div class="row-trans">reuniones sin fin, reuniones dentro de reuniones</div></div></div>
+      <div class="row"><div class="row-emoji">✊</div><div class="row-content"><div class="row-cn">逼着</div><div class="row-py">bī zhe</div><div class="row-trans">obligar a alguien a hacer algo</div></div></div>
+      <div class="row"><div class="row-emoji">📝</div><div class="row-content"><div class="row-cn">辞职报告</div><div class="row-py">cí zhí bào gào</div><div class="row-trans">carta de renuncia</div></div></div>
+      <div class="row"><div class="row-emoji">🛑</div><div class="row-content"><div class="row-cn">打住</div><div class="row-py">dǎ zhù</div><div class="row-trans">basta, ¡detente!</div></div></div>
+    </div>
+  </div>
+
+  <div class="video-block">
+    <div class="video-title">
+      <span class="cn">🎬 Видео 3：明明已经长大，但心愿依旧没变</span>
+      <span class="py">míng míng yǐ jīng zhǎng dà，dàn xīn yuàn yī jiù méi biàn</span>
+      <span class="trans">Ya soy adulto, pero mi deseo no ha cambiado</span>
+    </div>
+    <div class="table-wrap">
+      <div class="row"><div class="row-emoji">🫠</div><div class="row-content"><div class="row-cn">人都麻了</div><div class="row-py">rén dōu má le</div><div class="row-trans">estar agotado mentalmente</div></div></div>
+      <div class="row"><div class="row-emoji">🧭</div><div class="row-content"><div class="row-cn">到头来</div><div class="row-py">dào tóu lái</div><div class="row-trans">al final, a la postre</div></div></div>
+      <div class="row"><div class="row-emoji">🏢</div><div class="row-content"><div class="row-cn">物业费</div><div class="row-py">wù yè fèi</div><div class="row-trans">cuotas de mantenimiento del edificio</div></div></div>
+      <div class="row"><div class="row-emoji">💀</div><div class="row-content"><div class="row-cn">卖命赚钱</div><div class="row-py">mài mìng zhuàn qián</div><div class="row-trans">trabajar muy duro por dinero</div></div></div>
+    </div>
+  </div>
+
+</div><!-- /lang-mx -->
+
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- РУССКИЙ 🇷🇺 -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="lang-page" id="lang-ru">
+
+  <div class="video-block">
+    <div class="video-title">
+      <span class="cn">🎬 Видео 1：中等阶层过去与现在</span>
+      <span class="py">zhōng děng jiē céng guò qù yǔ xiàn zài</span>
+      <span class="trans">Средний класс: прошлое и настоящее</span>
+    </div>
+    <div class="table-wrap">
+      <div class="row"><div class="row-emoji">😌</div><div class="row-content"><div class="row-cn">美滋滋</div><div class="row-py">měi zī zī</div><div class="row-trans">очень доволен, в отличном настроении</div></div></div>
+      <div class="row"><div class="row-emoji">✨</div><div class="row-content"><div class="row-cn">拿下</div><div class="row-py">ná xià</div><div class="row-trans">достал, получил, взял своё</div></div></div>
+      <div class="row"><div class="row-emoji">🏠</div><div class="row-content"><div class="row-cn">房贷</div><div class="row-py">fáng dài</div><div class="row-trans">ипотека на квартиру</div></div></div>
+      <div class="row"><div class="row-emoji">📍</div><div class="row-content"><div class="row-cn">搁这儿</div><div class="row-py">gē zhèr</div><div class="row-trans">здесь, в этом месте</div></div></div>
+      <div class="row"><div class="row-emoji">🍳</div><div class="row-content"><div class="row-cn">整了</div><div class="row-py">zhěng le</div><div class="row-trans">приготовил, сделал</div></div></div>
+      <div class="row"><div class="row-emoji">🙊</div><div class="row-content"><div class="row-cn">老实交代</div><div class="row-py">lǎo shi jiāo dài</div><div class="row-trans">говори правду, признавайся</div></div></div>
+      <div class="row"><div class="row-emoji">📅</div><div class="row-content"><div class="row-cn">分期</div><div class="row-py">fēn qī</div><div class="row-trans">оплата в рассрочку</div></div></div>
+      <div class="row"><div class="row-emoji">💸</div><div class="row-content"><div class="row-cn">撸小额网贷</div><div class="row-py">lū xiǎo é wǎng dài</div><div class="row-trans">взять небольшой онлайн-заём</div></div></div>
+      <div class="row"><div class="row-emoji">🤦</div><div class="row-content"><div class="row-cn">搁这儿瞎折</div><div class="row-py">gē zhèr xiā zhé</div><div class="row-trans">заниматься тут всякой ерундой</div></div></div>
+      <div class="row"><div class="row-emoji">🚀</div><div class="row-content"><div class="row-cn">脆冲</div><div class="row-py">cuì chōng</div><div class="row-trans">скорее поехали, рванули</div></div></div>
+      <div class="row"><div class="row-emoji">👀</div><div class="row-content"><div class="row-cn">瞅</div><div class="row-py">chǒu</div><div class="row-trans">взглянуть, подглядеть</div></div></div>
+      <div class="row"><div class="row-emoji">🏃</div><div class="row-content"><div class="row-cn">溜</div><div class="row-py">liū</div><div class="row-trans">незаметно свалить, ускользнуть</div></div></div>
+      <div class="row"><div class="row-emoji">🚶</div><div class="row-content"><div class="row-cn">晃一圈</div><div class="row-py">huàng yī quān</div><div class="row-trans">прогуляться кружок</div></div></div>
+      <div class="row"><div class="row-emoji">📦</div><div class="row-content"><div class="row-cn">堆了</div><div class="row-py">duī le</div><div class="row-trans">навалено горой, накопилось</div></div></div>
+      <div class="row"><div class="row-emoji">🍽️</div><div class="row-content"><div class="row-cn">贵奢餐厅</div><div class="row-py">guì shē cān tīng</div><div class="row-trans">дорогой роскошный ресторан</div></div></div>
+      <div class="row"><div class="row-emoji">🆓</div><div class="row-content"><div class="row-cn">白嫖</div><div class="row-py">bái piáo</div><div class="row-trans">пользоваться бесплатно, не платя</div></div></div>
+      <div class="row"><div class="row-emoji">🛋️</div><div class="row-content"><div class="row-cn">宅家</div><div class="row-py">zhái jiā</div><div class="row-trans">сидеть дома, не выходить</div></div></div>
+      <div class="row"><div class="row-emoji">🤷</div><div class="row-content"><div class="row-cn">好歹</div><div class="row-py">hǎo dǎi</div><div class="row-trans">по крайней мере, так или иначе</div></div></div>
+      <div class="row"><div class="row-emoji">😲</div><div class="row-content"><div class="row-cn">好家伙</div><div class="row-py">hǎo jiā huo</div><div class="row-trans">ничего себе! вау!</div></div></div>
+    </div>
+  </div>
+
+  <div class="video-block">
+    <div class="video-title">
+      <span class="cn">🎬 Видео 2：Z世代现象，他们不想加班</span>
+      <span class="py">Z shì dài xiàn xiàng，tā men bù xiǎng jiā bān</span>
+      <span class="trans">Феномен поколения Z: они не хотят работать сверхурочно</span>
+    </div>
+    <div class="table-wrap">
+      <div class="row"><div class="row-emoji">💨</div><div class="row-content"><div class="row-cn">原地消失</div><div class="row-py">yuán dì xiāo shī</div><div class="row-trans">исчезнуть прямо с этого места</div></div></div>
+      <div class="row"><div class="row-emoji">🌑</div><div class="row-content"><div class="row-cn">黑眼圈</div><div class="row-py">hēi yǎn quān</div><div class="row-trans">тёмные круги под глазами</div></div></div>
+      <div class="row"><div class="row-emoji">🥱</div><div class="row-content"><div class="row-cn">熬厚了</div><div class="row-py">áo hòu le</div><div class="row-trans">круги под глазами стали ярче от недосыпа</div></div></div>
+      <div class="row"><div class="row-emoji">⏰</div><div class="row-content"><div class="row-cn">卡点</div><div class="row-py">kǎ diǎn</div><div class="row-trans">прийти ровно в назначенное время</div></div></div>
+      <div class="row"><div class="row-emoji">🏃💨</div><div class="row-content"><div class="row-cn">跑路</div><div class="row-py">pǎo lù</div><div class="row-trans">быстро свалить с работы</div></div></div>
+      <div class="row"><div class="row-emoji">👔</div><div class="row-content"><div class="row-cn">领导</div><div class="row-py">lǐng dǎo</div><div class="row-trans">начальник, руководитель</div></div></div>
+      <div class="row"><div class="row-emoji">⏳</div><div class="row-content"><div class="row-cn">耽搁</div><div class="row-py">dān ge</div><div class="row-trans">задержаться, потратить время</div></div></div>
+      <div class="row"><div class="row-emoji">🧱</div><div class="row-content"><div class="row-cn">阶级隔离</div><div class="row-py">jiē jí gé lí</div><div class="row-trans">социальное расслоение, разделение классов</div></div></div>
+      <div class="row"><div class="row-emoji">🐂🐎</div><div class="row-content"><div class="row-cn">牛马</div><div class="row-py">niú mǎ</div><div class="row-trans">эксплуатируемый работник</div></div></div>
+      <div class="row"><div class="row-emoji">🤔</div><div class="row-content"><div class="row-cn">敢情</div><div class="row-py">gǎn qíng</div><div class="row-trans">а, вот в чём дело!</div></div></div>
+      <div class="row"><div class="row-emoji">🙇</div><div class="row-content"><div class="row-cn">磕头</div><div class="row-py">kē tóu</div><div class="row-trans">низко поклониться, умолять</div></div></div>
+      <div class="row"><div class="row-emoji">🦮</div><div class="row-content"><div class="row-cn">遛狗</div><div class="row-py">liù gǒu</div><div class="row-trans">выгуливать собаку</div></div></div>
+      <div class="row"><div class="row-emoji">🫳</div><div class="row-content"><div class="row-cn">甩给</div><div class="row-py">shuǎi gěi</div><div class="row-trans">переложить ответственность на другого</div></div></div>
+      <div class="row"><div class="row-emoji">🤯</div><div class="row-content"><div class="row-cn">离谱到家</div><div class="row-py">lí pǔ dào jiā</div><div class="row-trans">полный абсурд, совершенно невероятно</div></div></div>
+      <div class="row"><div class="row-emoji">🙅</div><div class="row-content"><div class="row-cn">别整这套</div><div class="row-py">bié zhěng zhè tào</div><div class="row-trans">не надо этих фокусов</div></div></div>
+      <div class="row"><div class="row-emoji">🏃💨</div><div class="row-content"><div class="row-cn">溜之大吉</div><div class="row-py">liū zhī dà jí</div><div class="row-trans">тихонько сбежать, скрыться</div></div></div>
+      <div class="row"><div class="row-emoji">🪆</div><div class="row-content"><div class="row-cn">套娃会议</div><div class="row-py">tào wá huì yì</div><div class="row-trans">бесконечные совещания, совещания по совещаниям</div></div></div>
+      <div class="row"><div class="row-emoji">✊</div><div class="row-content"><div class="row-cn">逼着</div><div class="row-py">bī zhe</div><div class="row-trans">заставлять, принуждать</div></div></div>
+      <div class="row"><div class="row-emoji">📝</div><div class="row-content"><div class="row-cn">辞职报告</div><div class="row-py">cí zhí bào gào</div><div class="row-trans">заявление на увольнение</div></div></div>
+      <div class="row"><div class="row-emoji">🛑</div><div class="row-content"><div class="row-cn">打住</div><div class="row-py">dǎ zhù</div><div class="row-trans">хватит, остановись!</div></div></div>
+    </div>
+  </div>
+
+  <div class="video-block">
+    <div class="video-title">
+      <span class="cn">🎬 Видео 3：明明已经长大，但心愿依旧没变</span>
+      <span class="py">míng míng yǐ jīng zhǎng dà，dàn xīn yuàn yī jiù méi biàn</span>
+      <span class="trans">Уже вырос, но желание осталось прежним</span>
+    </div>
+    <div class="table-wrap">
+      <div class="row"><div class="row-emoji">🫠</div><div class="row-content"><div class="row-cn">人都麻了</div><div class="row-py">rén dōu má le</div><div class="row-trans">вымотаться, морально устать</div></div></div>
+      <div class="row"><div class="row-emoji">🧭</div><div class="row-content"><div class="row-cn">到头来</div><div class="row-py">dào tóu lái</div><div class="row-trans">в итоге, в конечном счёте</div></div></div>
+      <div class="row"><div class="row-emoji">🏢</div><div class="row-content"><div class="row-cn">物业费</div><div class="row-py">wù yè fèi</div><div class="row-trans">плата за содержание дома</div></div></div>
+      <div class="row"><div class="row-emoji">💀</div><div class="row-content"><div class="row-cn">卖命赚钱</div><div class="row-py">mài mìng zhuàn qián</div><div class="row-trans">вкалывать изо всех сил ради денег</div></div></div>
+    </div>
+  </div>
+
+</div><!-- /lang-ru -->
+
+</div><!-- /container -->
+
+<script>
+  function switchLang(lang) {
+    document.querySelectorAll('.lang-page').forEach(function(el) {
+      el.classList.remove('active');
+    });
+    var target = document.getElementById('lang-' + lang);
+    if (target) target.classList.add('active');
+
+    document.querySelectorAll('.flag-btn').forEach(function(btn) {
+      btn.classList.toggle('active', btn.dataset.lang === lang);
+    });
+
+    try { localStorage.setItem('selectedLang', lang); } catch(e) {}
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  (function init() {
+    var saved = null;
+    try { saved = localStorage.getItem('selectedLang'); } catch(e) {}
+    switchLang(saved || 'jp');
+  })();
+</script>
+
+</body>
+</html>
